@@ -1,0 +1,297 @@
+/* components/ImageUpload/ImageUpload.module.css */
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 24px;
+}
+
+.uploadArea {
+  background: white;
+  border: 2px dashed #d1d5db;
+  border-radius: 8px;
+  padding: 40px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.uploadArea:hover {
+  border-color: #3b82f6;
+  background: #f9fafb;
+}
+
+.uploadArea.dragOver {
+  border-color: #3b82f6;
+  background: #eff6ff;
+}
+
+.uploadIcon {
+  font-size: 48px;
+  color: #9ca3af;
+  margin-bottom: 16px;
+}
+
+.uploadText {
+  font-size: 16px;
+  color: #6b7280;
+  margin-bottom: 8px;
+}
+
+.uploadHint {
+  font-size: 14px;
+  color: #9ca3af;
+}
+
+.fileInput {
+  display: none;
+}
+
+.preview {
+  margin-top: 24px;
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.previewImage {
+  width: 100%;
+  max-height: 400px;
+  object-fit: contain;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
+
+.previewActions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.buttonPrimary {
+  background: #3b82f6;
+  color: white;
+}
+
+.buttonPrimary:hover {
+  background: #2563eb;
+}
+
+.buttonPrimary:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+.buttonSecondary {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.buttonSecondary:hover {
+  background: #e5e7eb;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+}
+
+.loadingSpinner {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f4f6;
+  border-top-color: #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loadingText {
+  font-size: 16px;
+  color: #6b7280;
+}
+
+.results {
+  margin-top: 24px;
+}
+
+.resultsHeader {
+  background: white;
+  padding: 16px 20px;
+  border-radius: 8px 8px 0 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.resultsTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 8px;
+}
+
+.resultsCount {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.resultsList {
+  background: white;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.resultItem {
+  padding: 16px 20px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.resultItem:last-child {
+  border-bottom: none;
+}
+
+.resultItemHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.resultItemTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.resultItemBadge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+}
+
+.resultItemRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.resultItemField {
+  display: flex;
+  flex-direction: column;
+}
+
+.resultItemLabel {
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 4px;
+}
+
+.resultItemValue {
+  font-size: 14px;
+  color: #111827;
+}
+
+.resultItemInput {
+  width: 100%;
+  padding: 6px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.resultItemTextarea {
+  width: 100%;
+  padding: 6px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 14px;
+  min-height: 60px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.resultItemSelect {
+  width: 100%;
+  padding: 6px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.saveButtons {
+  margin-top: 20px;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  padding: 16px 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.error {
+  background: #fee2e2;
+  color: #991b1b;
+  padding: 16px;
+  border-radius: 6px;
+  margin-top: 16px;
+}
+
+.success {
+  background: #d1fae5;
+  color: #065f46;
+  padding: 16px;
+  border-radius: 6px;
+  margin-top: 16px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 16px;
+  }
+
+  .uploadArea {
+    padding: 24px;
+  }
+
+  .resultItemRow {
+    grid-template-columns: 1fr;
+  }
+
+  .previewActions,
+  .saveButtons {
+    flex-direction: column;
+  }
+
+  .button {
+    width: 100%;
+  }
+}
