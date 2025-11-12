@@ -1,6 +1,6 @@
 // lib/utils.ts
 
-import type { CalendarDay, Schedule } from './types';
+import type { CalendarDay, Schedule } from "./types";
 
 /**
  * 月のカレンダーデータを生成
@@ -79,8 +79,8 @@ export function getSchedulesForDate(
  */
 export function formatDate(date: Date): string {
   const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
 }
 
@@ -88,7 +88,7 @@ export function formatDate(date: Date): string {
  * 日付文字列をDateオブジェクトに変換
  */
 export function parseDate(dateStr: string): Date {
-  const [year, month, day] = dateStr.split('-').map(Number);
+  const [year, month, day] = dateStr.split("-").map(Number);
   return new Date(year, month - 1, day);
 }
 
@@ -96,8 +96,8 @@ export function parseDate(dateStr: string): Date {
  * 時間をHH:mm形式にフォーマット
  */
 export function formatTime(date: Date): string {
-  const hours = String(date.getHours()).padStart(2, '0');
-  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
   return `${hours}:${minutes}`;
 }
 
@@ -105,8 +105,8 @@ export function formatTime(date: Date): string {
  * 日付と時間を結合してDateオブジェクトを作成
  */
 export function combineDateAndTime(dateStr: string, timeStr: string): Date {
-  const [year, month, day] = dateStr.split('-').map(Number);
-  const [hours, minutes] = timeStr.split(':').map(Number);
+  const [year, month, day] = dateStr.split("-").map(Number);
+  const [hours, minutes] = timeStr.split(":").map(Number);
   return new Date(year, month - 1, day, hours, minutes);
 }
 
@@ -121,7 +121,7 @@ export function getMonthName(year: number, month: number): string {
  * 曜日名を取得
  */
 export function getDayName(dayIndex: number): string {
-  const days = ['日', '月', '火', '水', '木', '金', '土'];
+  const days = ["日", "月", "火", "水", "木", "金", "土"];
   return days[dayIndex];
 }
 
@@ -129,7 +129,7 @@ export function getDayName(dayIndex: number): string {
  * HEXカラーの明度を判定（テキスト色を決定するため）
  */
 export function isLightColor(hexColor: string): boolean {
-  const hex = hexColor.replace('#', '');
+  const hex = hexColor.replace("#", "");
   const r = parseInt(hex.substr(0, 2), 16);
   const g = parseInt(hex.substr(2, 2), 16);
   const b = parseInt(hex.substr(4, 2), 16);
@@ -145,10 +145,10 @@ export function fileToBase64(file: File): Promise<string> {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
-      if (typeof reader.result === 'string') {
+      if (typeof reader.result === "string") {
         resolve(reader.result);
       } else {
-        reject(new Error('Failed to convert file to base64'));
+        reject(new Error("Failed to convert file to base64"));
       }
     };
     reader.onerror = (error) => reject(error);
@@ -160,14 +160,14 @@ export function fileToBase64(file: File): Promise<string> {
  */
 export function getMimeTypeFromBase64(base64: string): string {
   const match = base64.match(/data:([^;]+);/);
-  return match ? match[1] : 'image/jpeg';
+  return match ? match[1] : "image/jpeg";
 }
 
 /**
  * Base64からデータ部分のみを抽出
  */
 export function getBase64Data(base64: string): string {
-  return base64.split(',')[1] || base64;
+  return base64.split(",")[1] || base64;
 }
 
 /**
@@ -188,7 +188,7 @@ export function isValidTime(timeStr: string): boolean {
   const regex = /^\d{2}:\d{2}$/;
   if (!regex.test(timeStr)) return false;
 
-  const [hours, minutes] = timeStr.split(':').map(Number);
+  const [hours, minutes] = timeStr.split(":").map(Number);
   return hours >= 0 && hours < 24 && minutes >= 0 && minutes < 60;
 }
 
