@@ -15,8 +15,8 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 ;
 ;
 const metadata = {
-    title: '月間予定管理アプリ',
-    description: '画像読み込みと手入力に対応した予定管理アプリ'
+    title: "月間予定管理アプリ",
+    description: "画像読み込みと手入力に対応した予定管理アプリ"
 };
 function RootLayout({ children }) {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("html", {
@@ -59,21 +59,12 @@ function RootLayout({ children }) {
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$react$2d$server$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"], {
-                                        href: "/schedules/new",
-                                        className: "header-link",
-                                        children: "新規作成"
-                                    }, void 0, false, {
-                                        fileName: "[project]/calenderapp/app/layout.tsx",
-                                        lineNumber: 32,
-                                        columnNumber: 15
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$react$2d$server$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["default"], {
                                         href: "/schedules/upload",
                                         className: "header-link",
                                         children: "画像アップロード"
                                     }, void 0, false, {
                                         fileName: "[project]/calenderapp/app/layout.tsx",
-                                        lineNumber: 35,
+                                        lineNumber: 33,
                                         columnNumber: 15
                                     }, this)
                                 ]
@@ -98,7 +89,7 @@ function RootLayout({ children }) {
                     children: children
                 }, void 0, false, {
                     fileName: "[project]/calenderapp/app/layout.tsx",
-                    lineNumber: 42,
+                    lineNumber: 40,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["jsxDEV"])("footer", {
@@ -107,12 +98,12 @@ function RootLayout({ children }) {
                         children: "© 2025 月間予定管理アプリ. All rights reserved."
                     }, void 0, false, {
                         fileName: "[project]/calenderapp/app/layout.tsx",
-                        lineNumber: 45,
+                        lineNumber: 43,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/calenderapp/app/layout.tsx",
-                    lineNumber: 44,
+                    lineNumber: 42,
                     columnNumber: 9
                 }, this)
             ]

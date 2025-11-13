@@ -1,0 +1,210 @@
+/* [project]/calenderapp/components/Calendar/Calendar.module.css [app-client] (css) */
+.Calendar-module__G1O1Vq__container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.Calendar-module__G1O1Vq__header {
+  background: #fff;
+  border-radius: 8px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding: 16px;
+  display: flex;
+  box-shadow: 0 1px 3px #0000001a;
+}
+
+.Calendar-module__G1O1Vq__navigation {
+  align-items: center;
+  gap: 12px;
+  display: flex;
+}
+
+.Calendar-module__G1O1Vq__navButton {
+  cursor: pointer;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 14px;
+  transition: all .2s;
+}
+
+.Calendar-module__G1O1Vq__navButton:hover {
+  background: #f3f4f6;
+  border-color: #d1d5db;
+}
+
+.Calendar-module__G1O1Vq__navButton:active {
+  background: #e5e7eb;
+}
+
+.Calendar-module__G1O1Vq__monthTitle {
+  color: #111827;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.Calendar-module__G1O1Vq__todayButton {
+  color: #fff;
+  cursor: pointer;
+  background: #3b82f6;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background .2s;
+}
+
+.Calendar-module__G1O1Vq__todayButton:hover {
+  background: #2563eb;
+}
+
+.Calendar-module__G1O1Vq__calendar {
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px #0000001a;
+}
+
+.Calendar-module__G1O1Vq__weekDays {
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+  grid-template-columns: repeat(7, 1fr);
+  display: grid;
+}
+
+.Calendar-module__G1O1Vq__weekDay {
+  text-align: center;
+  color: #6b7280;
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.Calendar-module__G1O1Vq__weekDay.Calendar-module__G1O1Vq__sunday {
+  color: #ef4444;
+}
+
+.Calendar-module__G1O1Vq__weekDay.Calendar-module__G1O1Vq__saturday {
+  color: #3b82f6;
+}
+
+.Calendar-module__G1O1Vq__days {
+  background: #e5e7eb;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+  display: grid;
+}
+
+.Calendar-module__G1O1Vq__day {
+  cursor: pointer;
+  background: #fff;
+  min-height: 120px;
+  padding: 8px;
+  transition: background .2s;
+  position: relative;
+}
+
+.Calendar-module__G1O1Vq__day:hover {
+  background: #f9fafb;
+}
+
+.Calendar-module__G1O1Vq__day.Calendar-module__G1O1Vq__otherMonth {
+  color: #9ca3af;
+  background: #f9fafb;
+}
+
+.Calendar-module__G1O1Vq__day.Calendar-module__G1O1Vq__today {
+  background: #eff6ff;
+}
+
+.Calendar-module__G1O1Vq__dayNumber {
+  color: #111827;
+  margin-bottom: 4px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.Calendar-module__G1O1Vq__day.Calendar-module__G1O1Vq__otherMonth .Calendar-module__G1O1Vq__dayNumber {
+  color: #9ca3af;
+}
+
+.Calendar-module__G1O1Vq__day.Calendar-module__G1O1Vq__sunday .Calendar-module__G1O1Vq__dayNumber {
+  color: #ef4444;
+}
+
+.Calendar-module__G1O1Vq__day.Calendar-module__G1O1Vq__saturday .Calendar-module__G1O1Vq__dayNumber {
+  color: #3b82f6;
+}
+
+.Calendar-module__G1O1Vq__scheduleList {
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 4px;
+  display: flex;
+}
+
+.Calendar-module__G1O1Vq__scheduleItem {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: #fff;
+  border-radius: 3px;
+  padding: 2px 4px;
+  font-size: 11px;
+  font-weight: 500;
+  overflow: hidden;
+}
+
+.Calendar-module__G1O1Vq__scheduleCount {
+  color: #6b7280;
+  text-align: center;
+  margin-top: 2px;
+  font-size: 11px;
+}
+
+.Calendar-module__G1O1Vq__loading {
+  text-align: center;
+  color: #6b7280;
+  padding: 40px;
+}
+
+.Calendar-module__G1O1Vq__error {
+  text-align: center;
+  color: #ef4444;
+  padding: 40px;
+}
+
+@media (max-width: 768px) {
+  .Calendar-module__G1O1Vq__container {
+    padding: 12px;
+  }
+
+  .Calendar-module__G1O1Vq__header {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .Calendar-module__G1O1Vq__monthTitle {
+    font-size: 20px;
+  }
+
+  .Calendar-module__G1O1Vq__day {
+    min-height: 80px;
+    padding: 4px;
+  }
+
+  .Calendar-module__G1O1Vq__dayNumber {
+    font-size: 12px;
+  }
+
+  .Calendar-module__G1O1Vq__scheduleItem {
+    font-size: 10px;
+  }
+}
+
+/*# sourceMappingURL=calenderapp_components_Calendar_Calendar_module_css_bad6b30c._.single.css.map*/

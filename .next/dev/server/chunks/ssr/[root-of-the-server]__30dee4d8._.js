@@ -264,7 +264,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navi
 var __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$lib$2f$types$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/calenderapp/lib/types.ts [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/calenderapp/lib/utils.ts [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$Schedule$2f$Schedule$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__ = __turbopack_context__.i("[project]/calenderapp/components/Schedule/Schedule.module.css [app-ssr] (css module)");
-'use client';
+"use client";
 ;
 ;
 ;
@@ -277,12 +277,12 @@ function ScheduleForm({ schedule, initialDate, onSuccess, onCancel }) {
     const [errors, setErrors] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])({});
     const [formData, setFormData] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])({
         date: schedule?.date || (initialDate ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatDate"])(initialDate) : (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatDate"])(new Date())),
-        startTime: schedule?.startTime || '09:00',
-        endTime: schedule?.endTime || '10:00',
-        title: schedule?.title || '',
-        description: schedule?.description || '',
-        category: schedule?.category || 'other',
-        color: schedule?.color || __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$lib$2f$types$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CATEGORIES"].find((c)=>c.value === 'other').defaultColor,
+        startTime: schedule?.startTime || "09:00",
+        endTime: schedule?.endTime || "10:00",
+        title: schedule?.title || "",
+        description: schedule?.description || "",
+        category: schedule?.category || "other",
+        color: schedule?.color || __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$lib$2f$types$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CATEGORIES"].find((c)=>c.value === "other").defaultColor,
         completed: schedule?.completed || false
     });
     // カテゴリー変更時に色を自動設定
@@ -302,7 +302,7 @@ function ScheduleForm({ schedule, initialDate, onSuccess, onCancel }) {
     ]);
     const handleChange = (e)=>{
         const { name, value, type } = e.target;
-        if (type === 'checkbox') {
+        if (type === "checkbox") {
             const checked = e.target.checked;
             setFormData((prev)=>({
                     ...prev,
@@ -334,19 +334,19 @@ function ScheduleForm({ schedule, initialDate, onSuccess, onCancel }) {
     const validate = ()=>{
         const newErrors = {};
         if (!formData.title.trim()) {
-            newErrors.title = 'タイトルを入力してください';
+            newErrors.title = "タイトルを入力してください";
         }
         if (!(0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["isValidDate"])(formData.date)) {
-            newErrors.date = '有効な日付を入力してください';
+            newErrors.date = "有効な日付を入力してください";
         }
         if (!(0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["isValidTime"])(formData.startTime)) {
-            newErrors.startTime = '有効な時間を入力してください';
+            newErrors.startTime = "有効な時間を入力してください";
         }
         if (!(0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["isValidTime"])(formData.endTime)) {
-            newErrors.endTime = '有効な時間を入力してください';
+            newErrors.endTime = "有効な時間を入力してください";
         }
         if ((0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["isValidTime"])(formData.startTime) && (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["isValidTime"])(formData.endTime) && !(0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["isValidTimeRange"])(formData.startTime, formData.endTime)) {
-            newErrors.endTime = '終了時間は開始時間より後にしてください';
+            newErrors.endTime = "終了時間は開始時間より後にしてください";
         }
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
@@ -358,12 +358,12 @@ function ScheduleForm({ schedule, initialDate, onSuccess, onCancel }) {
         }
         try {
             setLoading(true);
-            const url = schedule ? `/api/schedules/${schedule.id}` : '/api/schedules';
-            const method = schedule ? 'PUT' : 'POST';
+            const url = schedule ? `/api/schedules/${schedule.id}` : "/api/schedules";
+            const method = schedule ? "PUT" : "POST";
             const response = await fetch(url, {
                 method,
                 headers: {
-                    'Content-Type': 'application/json'
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify(formData)
             });
@@ -372,39 +372,42 @@ function ScheduleForm({ schedule, initialDate, onSuccess, onCancel }) {
                 if (onSuccess) {
                     onSuccess();
                 } else {
-                    router.push('/schedules');
+                    // after creating/updating, go back to the calendar (root) so the saved
+                    // schedule is visible immediately
+                    router.push("/");
                     router.refresh();
                 }
             } else {
-                alert(data.error || '保存に失敗しました');
+                alert(data.error || "保存に失敗しました");
             }
         } catch (error) {
-            console.error('Failed to save schedule:', error);
-            alert('保存中にエラーが発生しました');
+            console.error("Failed to save schedule:", error);
+            alert("保存中にエラーが発生しました");
         } finally{
             setLoading(false);
         }
     };
     const handleDelete = async ()=>{
         if (!schedule) return;
-        if (!confirm('この予定を削除しますか？')) {
+        if (!confirm("この予定を削除しますか？")) {
             return;
         }
         try {
             setLoading(true);
             const response = await fetch(`/api/schedules/${schedule.id}`, {
-                method: 'DELETE'
+                method: "DELETE"
             });
             const data = await response.json();
             if (data.success) {
-                router.push('/schedules');
+                // go back to calendar after delete
+                router.push("/");
                 router.refresh();
             } else {
-                alert(data.error || '削除に失敗しました');
+                alert(data.error || "削除に失敗しました");
             }
         } catch (error) {
-            console.error('Failed to delete schedule:', error);
-            alert('削除中にエラーが発生しました');
+            console.error("Failed to delete schedule:", error);
+            alert("削除中にエラーが発生しました");
         } finally{
             setLoading(false);
         }
@@ -426,13 +429,13 @@ function ScheduleForm({ schedule, initialDate, onSuccess, onCancel }) {
                                 children: "*"
                             }, void 0, false, {
                                 fileName: "[project]/calenderapp/components/Schedule/ScheduleForm.tsx",
-                                lineNumber: 192,
+                                lineNumber: 197,
                                 columnNumber: 15
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/calenderapp/components/Schedule/ScheduleForm.tsx",
-                        lineNumber: 191,
+                        lineNumber: 196,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -445,7 +448,7 @@ function ScheduleForm({ schedule, initialDate, onSuccess, onCancel }) {
                         placeholder: "予定のタイトル"
                     }, void 0, false, {
                         fileName: "[project]/calenderapp/components/Schedule/ScheduleForm.tsx",
-                        lineNumber: 194,
+                        lineNumber: 199,
                         columnNumber: 9
                     }, this),
                     errors.title && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -453,13 +456,13 @@ function ScheduleForm({ schedule, initialDate, onSuccess, onCancel }) {
                         children: errors.title
                     }, void 0, false, {
                         fileName: "[project]/calenderapp/components/Schedule/ScheduleForm.tsx",
-                        lineNumber: 203,
+                        lineNumber: 208,
                         columnNumber: 26
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/calenderapp/components/Schedule/ScheduleForm.tsx",
-                lineNumber: 190,
+                lineNumber: 195,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -475,13 +478,13 @@ function ScheduleForm({ schedule, initialDate, onSuccess, onCancel }) {
                                 children: "*"
                             }, void 0, false, {
                                 fileName: "[project]/calenderapp/components/Schedule/ScheduleForm.tsx",
-                                lineNumber: 208,
+                                lineNumber: 213,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/calenderapp/components/Schedule/ScheduleForm.tsx",
-                        lineNumber: 207,
+                        lineNumber: 212,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -493,7 +496,7 @@ function ScheduleForm({ schedule, initialDate, onSuccess, onCancel }) {
                         className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$Schedule$2f$Schedule$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].input
                     }, void 0, false, {
                         fileName: "[project]/calenderapp/components/Schedule/ScheduleForm.tsx",
-                        lineNumber: 210,
+                        lineNumber: 215,
                         columnNumber: 9
                     }, this),
                     errors.date && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -501,13 +504,13 @@ function ScheduleForm({ schedule, initialDate, onSuccess, onCancel }) {
                         children: errors.date
                     }, void 0, false, {
                         fileName: "[project]/calenderapp/components/Schedule/ScheduleForm.tsx",
-                        lineNumber: 218,
+                        lineNumber: 223,
                         columnNumber: 25
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/calenderapp/components/Schedule/ScheduleForm.tsx",
-                lineNumber: 206,
+                lineNumber: 211,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -526,13 +529,13 @@ function ScheduleForm({ schedule, initialDate, onSuccess, onCancel }) {
                                         children: "*"
                                     }, void 0, false, {
                                         fileName: "[project]/calenderapp/components/Schedule/ScheduleForm.tsx",
-                                        lineNumber: 224,
+                                        lineNumber: 229,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/calenderapp/components/Schedule/ScheduleForm.tsx",
-                                lineNumber: 223,
+                                lineNumber: 228,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -544,7 +547,7 @@ function ScheduleForm({ schedule, initialDate, onSuccess, onCancel }) {
                                 className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$Schedule$2f$Schedule$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].input
                             }, void 0, false, {
                                 fileName: "[project]/calenderapp/components/Schedule/ScheduleForm.tsx",
-                                lineNumber: 226,
+                                lineNumber: 231,
                                 columnNumber: 11
                             }, this),
                             errors.startTime && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -552,13 +555,13 @@ function ScheduleForm({ schedule, initialDate, onSuccess, onCancel }) {
                                 children: errors.startTime
                             }, void 0, false, {
                                 fileName: "[project]/calenderapp/components/Schedule/ScheduleForm.tsx",
-                                lineNumber: 235,
+                                lineNumber: 240,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/calenderapp/components/Schedule/ScheduleForm.tsx",
-                        lineNumber: 222,
+                        lineNumber: 227,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -574,13 +577,13 @@ function ScheduleForm({ schedule, initialDate, onSuccess, onCancel }) {
                                         children: "*"
                                     }, void 0, false, {
                                         fileName: "[project]/calenderapp/components/Schedule/ScheduleForm.tsx",
-                                        lineNumber: 241,
+                                        lineNumber: 246,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/calenderapp/components/Schedule/ScheduleForm.tsx",
-                                lineNumber: 240,
+                                lineNumber: 245,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -592,7 +595,7 @@ function ScheduleForm({ schedule, initialDate, onSuccess, onCancel }) {
                                 className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$Schedule$2f$Schedule$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].input
                             }, void 0, false, {
                                 fileName: "[project]/calenderapp/components/Schedule/ScheduleForm.tsx",
-                                lineNumber: 243,
+                                lineNumber: 248,
                                 columnNumber: 11
                             }, this),
                             errors.endTime && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -600,19 +603,19 @@ function ScheduleForm({ schedule, initialDate, onSuccess, onCancel }) {
                                 children: errors.endTime
                             }, void 0, false, {
                                 fileName: "[project]/calenderapp/components/Schedule/ScheduleForm.tsx",
-                                lineNumber: 252,
+                                lineNumber: 257,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/calenderapp/components/Schedule/ScheduleForm.tsx",
-                        lineNumber: 239,
+                        lineNumber: 244,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/calenderapp/components/Schedule/ScheduleForm.tsx",
-                lineNumber: 221,
+                lineNumber: 226,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -624,7 +627,7 @@ function ScheduleForm({ schedule, initialDate, onSuccess, onCancel }) {
                         children: "カテゴリー"
                     }, void 0, false, {
                         fileName: "[project]/calenderapp/components/Schedule/ScheduleForm.tsx",
-                        lineNumber: 258,
+                        lineNumber: 263,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -638,18 +641,18 @@ function ScheduleForm({ schedule, initialDate, onSuccess, onCancel }) {
                                 children: cat.label
                             }, cat.value, false, {
                                 fileName: "[project]/calenderapp/components/Schedule/ScheduleForm.tsx",
-                                lineNumber: 269,
+                                lineNumber: 274,
                                 columnNumber: 13
                             }, this))
                     }, void 0, false, {
                         fileName: "[project]/calenderapp/components/Schedule/ScheduleForm.tsx",
-                        lineNumber: 261,
+                        lineNumber: 266,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/calenderapp/components/Schedule/ScheduleForm.tsx",
-                lineNumber: 257,
+                lineNumber: 262,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -660,14 +663,14 @@ function ScheduleForm({ schedule, initialDate, onSuccess, onCancel }) {
                         children: "色"
                     }, void 0, false, {
                         fileName: "[project]/calenderapp/components/Schedule/ScheduleForm.tsx",
-                        lineNumber: 277,
+                        lineNumber: 282,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$Schedule$2f$Schedule$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].colorPicker,
                         children: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$lib$2f$types$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CATEGORIES"].map((cat)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                 type: "button",
-                                className: `${__TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$Schedule$2f$Schedule$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].colorOption} ${formData.color === cat.defaultColor ? __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$Schedule$2f$Schedule$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].selected : ''}`,
+                                className: `${__TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$Schedule$2f$Schedule$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].colorOption} ${formData.color === cat.defaultColor ? __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$Schedule$2f$Schedule$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].selected : ""}`,
                                 style: {
                                     backgroundColor: cat.defaultColor
                                 },
@@ -675,18 +678,18 @@ function ScheduleForm({ schedule, initialDate, onSuccess, onCancel }) {
                                 "aria-label": `${cat.label}の色`
                             }, cat.defaultColor, false, {
                                 fileName: "[project]/calenderapp/components/Schedule/ScheduleForm.tsx",
-                                lineNumber: 280,
+                                lineNumber: 285,
                                 columnNumber: 13
                             }, this))
                     }, void 0, false, {
                         fileName: "[project]/calenderapp/components/Schedule/ScheduleForm.tsx",
-                        lineNumber: 278,
+                        lineNumber: 283,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/calenderapp/components/Schedule/ScheduleForm.tsx",
-                lineNumber: 276,
+                lineNumber: 281,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -698,7 +701,7 @@ function ScheduleForm({ schedule, initialDate, onSuccess, onCancel }) {
                         children: "詳細"
                     }, void 0, false, {
                         fileName: "[project]/calenderapp/components/Schedule/ScheduleForm.tsx",
-                        lineNumber: 295,
+                        lineNumber: 300,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
@@ -710,13 +713,13 @@ function ScheduleForm({ schedule, initialDate, onSuccess, onCancel }) {
                         placeholder: "予定の詳細説明"
                     }, void 0, false, {
                         fileName: "[project]/calenderapp/components/Schedule/ScheduleForm.tsx",
-                        lineNumber: 298,
+                        lineNumber: 303,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/calenderapp/components/Schedule/ScheduleForm.tsx",
-                lineNumber: 294,
+                lineNumber: 299,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -732,7 +735,7 @@ function ScheduleForm({ schedule, initialDate, onSuccess, onCancel }) {
                             onChange: handleChange
                         }, void 0, false, {
                             fileName: "[project]/calenderapp/components/Schedule/ScheduleForm.tsx",
-                            lineNumber: 310,
+                            lineNumber: 315,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
@@ -741,18 +744,18 @@ function ScheduleForm({ schedule, initialDate, onSuccess, onCancel }) {
                             children: "完了済み"
                         }, void 0, false, {
                             fileName: "[project]/calenderapp/components/Schedule/ScheduleForm.tsx",
-                            lineNumber: 317,
+                            lineNumber: 322,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/calenderapp/components/Schedule/ScheduleForm.tsx",
-                    lineNumber: 309,
+                    lineNumber: 314,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/calenderapp/components/Schedule/ScheduleForm.tsx",
-                lineNumber: 308,
+                lineNumber: 313,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -766,7 +769,7 @@ function ScheduleForm({ schedule, initialDate, onSuccess, onCancel }) {
                         children: "削除"
                     }, void 0, false, {
                         fileName: "[project]/calenderapp/components/Schedule/ScheduleForm.tsx",
-                        lineNumber: 325,
+                        lineNumber: 330,
                         columnNumber: 11
                     }, this),
                     onCancel && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -777,29 +780,29 @@ function ScheduleForm({ schedule, initialDate, onSuccess, onCancel }) {
                         children: "キャンセル"
                     }, void 0, false, {
                         fileName: "[project]/calenderapp/components/Schedule/ScheduleForm.tsx",
-                        lineNumber: 335,
+                        lineNumber: 340,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                         type: "submit",
                         className: `${__TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$Schedule$2f$Schedule$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].button} ${__TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$Schedule$2f$Schedule$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].buttonPrimary}`,
                         disabled: loading,
-                        children: loading ? '保存中...' : schedule ? '更新' : '作成'
+                        children: loading ? "保存中..." : schedule ? "更新" : "作成"
                     }, void 0, false, {
                         fileName: "[project]/calenderapp/components/Schedule/ScheduleForm.tsx",
-                        lineNumber: 344,
+                        lineNumber: 349,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/calenderapp/components/Schedule/ScheduleForm.tsx",
-                lineNumber: 323,
+                lineNumber: 328,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/calenderapp/components/Schedule/ScheduleForm.tsx",
-        lineNumber: 189,
+        lineNumber: 194,
         columnNumber: 5
     }, this);
 }

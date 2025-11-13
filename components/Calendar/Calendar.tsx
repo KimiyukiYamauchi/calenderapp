@@ -1,5 +1,3 @@
-// components/Calendar/Calendar.tsx
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -20,6 +18,16 @@ export default function Calendar({ onDayClick }: CalendarProps) {
 
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth() + 1;
+
+  // ヘッダの年/月入力用 (ユーザーが直接指定して移動できる)
+  const [inputYear, setInputYear] = useState<number>(year);
+  const [inputMonth, setInputMonth] = useState<number>(month);
+
+  useEffect(() => {
+    // currentDate が変わったら入力値を同期する
+    setInputYear(year);
+    setInputMonth(month);
+  }, [year, month]);
 
   // 予定を取得
   useEffect(() => {
@@ -67,6 +75,16 @@ export default function Calendar({ onDayClick }: CalendarProps) {
     setCurrentDate(new Date());
   };
 
+  const handleGotoSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // 入力値を検証して移動
+    const y = Number(inputYear) || year;
+    let m = Number(inputMonth) || month;
+    if (m < 1) m = 1;
+    if (m > 12) m = 12;
+    setCurrentDate(new Date(y, m - 1, 1));
+  };
+
   const handleDayClick = (day: CalendarDay) => {
     if (onDayClick) {
       onDayClick(day.date, day.schedules);
@@ -100,6 +118,36 @@ export default function Calendar({ onDayClick }: CalendarProps) {
             次月 →
           </button>
         </div>
+
+        {/* 年月直接指定フォーム */}
+        <form className={styles.gotoForm} onSubmit={handleGotoSubmit}>
+          <input
+            type="number"
+            className={styles.gotoInput}
+            value={inputYear}
+            onChange={(e) => setInputYear(Number(e.target.value || 0))}
+            aria-label="年"
+            min={1900}
+            max={3000}
+          />
+          <span>/</span>
+          <select
+            className={styles.gotoSelect}
+            value={inputMonth}
+            onChange={(e) => setInputMonth(Number(e.target.value))}
+            aria-label="月"
+          >
+            {Array.from({ length: 12 }, (_, i) => i + 1).map((m) => (
+              <option key={m} value={m}>
+                {m}
+              </option>
+            ))}
+          </select>
+          <button type="submit" className={styles.gotoButton}>
+            移動
+          </button>
+        </form>
+
         <h2 className={styles.monthTitle}>{getMonthName(year, month)}</h2>
         <button
           className={styles.todayButton}

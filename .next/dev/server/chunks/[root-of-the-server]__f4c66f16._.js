@@ -65,30 +65,42 @@ __turbopack_context__.s([
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$microcms$2d$js$2d$sdk$2f$dist$2f$esm$2f$microcms$2d$js$2d$sdk$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/microcms-js-sdk/dist/esm/microcms-js-sdk.js [app-route] (ecmascript)");
 ;
-if (!process.env.MICROCMS_SERVICE_DOMAIN) {
-    throw new Error('MICROCMS_SERVICE_DOMAIN is required');
-}
-if (!process.env.MICROCMS_API_KEY) {
-    throw new Error('MICROCMS_API_KEY is required');
-}
-const client = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$microcms$2d$js$2d$sdk$2f$dist$2f$esm$2f$microcms$2d$js$2d$sdk$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["createClient"])({
+// If microCMS environment variables are provided, use the real client.
+// Otherwise fall back to a simple in-memory store for local development.
+const hasMicroCMSEnv = !!process.env.MICROCMS_SERVICE_DOMAIN && !!process.env.MICROCMS_API_KEY;
+const client = hasMicroCMSEnv ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$microcms$2d$js$2d$sdk$2f$dist$2f$esm$2f$microcms$2d$js$2d$sdk$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["createClient"])({
     serviceDomain: process.env.MICROCMS_SERVICE_DOMAIN,
     apiKey: process.env.MICROCMS_API_KEY
-});
+}) : null;
+// In-memory fallback store for development when microCMS is not configured
+const inMemoryStore = [];
+function generateId() {
+    return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+}
 async function getSchedules(year, month) {
     try {
-        let filters = '';
+        // If microCMS client is not configured, use in-memory store
+        if (!client) {
+            if (year && month) {
+                const prefix = `${year}-${String(month).padStart(2, "0")}`;
+                return inMemoryStore.filter((s)=>s.date.startsWith(prefix));
+            }
+            return [
+                ...inMemoryStore
+            ];
+        }
+        let filters = "";
         if (year && month) {
             // 指定された月の予定のみを取得
-            const startDate = `${year}-${String(month).padStart(2, '0')}-01`;
-            const endDate = `${year}-${String(month).padStart(2, '0')}-31`;
+            const startDate = `${year}-${String(month).padStart(2, "0")}-01`;
+            const endDate = `${year}-${String(month).padStart(2, "0")}-31`;
             filters = `date[greater_than]${startDate}[and]date[less_than]${endDate}`;
         }
         const response = await client.get({
-            endpoint: 'schedules',
+            endpoint: "schedules",
             queries: {
                 limit: 100,
-                orders: 'date',
+                orders: "date",
                 ...filters && {
                     filters
                 }
@@ -96,14 +108,19 @@ async function getSchedules(year, month) {
         });
         return response.contents;
     } catch (error) {
-        console.error('Failed to fetch schedules:', error);
+        console.error("Failed to fetch schedules:", error);
         throw error;
     }
 }
 async function getSchedule(id) {
     try {
+        if (!client) {
+            const found = inMemoryStore.find((s)=>s.id === id);
+            if (!found) throw new Error(`Schedule ${id} not found`);
+            return found;
+        }
         const schedule = await client.get({
-            endpoint: 'schedules',
+            endpoint: "schedules",
             contentId: id
         });
         return schedule;
@@ -114,8 +131,21 @@ async function getSchedule(id) {
 }
 async function createSchedule(data) {
     try {
+        if (!client) {
+            const id = generateId();
+            const now = new Date().toISOString();
+            const schedule = {
+                ...data,
+                id,
+                completed: data.completed ?? false,
+                createdAt: now,
+                updatedAt: now
+            };
+            inMemoryStore.push(schedule);
+            return schedule;
+        }
         const response = await client.create({
-            endpoint: 'schedules',
+            endpoint: "schedules",
             content: {
                 ...data,
                 completed: data.completed ?? false
@@ -129,14 +159,25 @@ async function createSchedule(data) {
             updatedAt: new Date().toISOString()
         };
     } catch (error) {
-        console.error('Failed to create schedule:', error);
+        console.error("Failed to create schedule:", error);
         throw error;
     }
 }
 async function updateSchedule(id, data) {
     try {
+        if (!client) {
+            const idx = inMemoryStore.findIndex((s)=>s.id === id);
+            if (idx === -1) throw new Error(`Schedule ${id} not found`);
+            const updated = {
+                ...inMemoryStore[idx],
+                ...data,
+                updatedAt: new Date().toISOString()
+            };
+            inMemoryStore[idx] = updated;
+            return updated;
+        }
         await client.update({
-            endpoint: 'schedules',
+            endpoint: "schedules",
             contentId: id,
             content: data
         });
@@ -149,8 +190,14 @@ async function updateSchedule(id, data) {
 }
 async function deleteSchedule(id) {
     try {
+        if (!client) {
+            const idx = inMemoryStore.findIndex((s)=>s.id === id);
+            if (idx === -1) throw new Error(`Schedule ${id} not found`);
+            inMemoryStore.splice(idx, 1);
+            return;
+        }
         await client.delete({
-            endpoint: 'schedules',
+            endpoint: "schedules",
             contentId: id
         });
     } catch (error) {
@@ -160,27 +207,31 @@ async function deleteSchedule(id) {
 }
 async function createScheduleBulk(schedules) {
     try {
+        // createSchedule already handles microCMS vs in-memory fallback
         const results = await Promise.all(schedules.map((schedule)=>createSchedule(schedule)));
         return results;
     } catch (error) {
-        console.error('Failed to create schedules in bulk:', error);
+        console.error("Failed to create schedules in bulk:", error);
         throw error;
     }
 }
 async function getSchedulesByDateRange(startDate, endDate) {
     try {
+        if (!client) {
+            return inMemoryStore.filter((s)=>s.date > startDate && s.date < endDate);
+        }
         const filters = `date[greater_than]${startDate}[and]date[less_than]${endDate}`;
         const response = await client.get({
-            endpoint: 'schedules',
+            endpoint: "schedules",
             queries: {
                 limit: 100,
-                orders: 'date',
+                orders: "date",
                 filters
             }
         });
         return response.contents;
     } catch (error) {
-        console.error('Failed to fetch schedules by date range:', error);
+        console.error("Failed to fetch schedules by date range:", error);
         throw error;
     }
 }

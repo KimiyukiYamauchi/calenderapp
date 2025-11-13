@@ -1,19 +1,19 @@
 // components/Schedule/ScheduleForm.tsx
 
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import type { Schedule, ScheduleInput, Category } from '@/lib/types';
-import { CATEGORIES } from '@/lib/types';
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import type { Schedule, ScheduleInput, Category } from "@/lib/types";
+import { CATEGORIES } from "@/lib/types";
 import {
   formatDate,
   formatTime,
   isValidDate,
   isValidTime,
   isValidTimeRange,
-} from '@/lib/utils';
-import styles from './Schedule.module.css';
+} from "@/lib/utils";
+import styles from "./Schedule.module.css";
 
 interface ScheduleFormProps {
   schedule?: Schedule;
@@ -33,13 +33,17 @@ export default function ScheduleForm({
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const [formData, setFormData] = useState<ScheduleInput>({
-    date: schedule?.date || (initialDate ? formatDate(initialDate) : formatDate(new Date())),
-    startTime: schedule?.startTime || '09:00',
-    endTime: schedule?.endTime || '10:00',
-    title: schedule?.title || '',
-    description: schedule?.description || '',
-    category: schedule?.category || 'other',
-    color: schedule?.color || CATEGORIES.find((c) => c.value === 'other')!.defaultColor,
+    date:
+      schedule?.date ||
+      (initialDate ? formatDate(initialDate) : formatDate(new Date())),
+    startTime: schedule?.startTime || "09:00",
+    endTime: schedule?.endTime || "10:00",
+    title: schedule?.title || "",
+    description: schedule?.description || "",
+    category: schedule?.category || "other",
+    color:
+      schedule?.color ||
+      CATEGORIES.find((c) => c.value === "other")!.defaultColor,
     completed: schedule?.completed || false,
   });
 
@@ -60,7 +64,7 @@ export default function ScheduleForm({
   ) => {
     const { name, value, type } = e.target;
 
-    if (type === 'checkbox') {
+    if (type === "checkbox") {
       const checked = (e.target as HTMLInputElement).checked;
       setFormData((prev) => ({ ...prev, [name]: checked }));
     } else {
@@ -85,19 +89,19 @@ export default function ScheduleForm({
     const newErrors: Record<string, string> = {};
 
     if (!formData.title.trim()) {
-      newErrors.title = 'タイトルを入力してください';
+      newErrors.title = "タイトルを入力してください";
     }
 
     if (!isValidDate(formData.date)) {
-      newErrors.date = '有効な日付を入力してください';
+      newErrors.date = "有効な日付を入力してください";
     }
 
     if (!isValidTime(formData.startTime)) {
-      newErrors.startTime = '有効な時間を入力してください';
+      newErrors.startTime = "有効な時間を入力してください";
     }
 
     if (!isValidTime(formData.endTime)) {
-      newErrors.endTime = '有効な時間を入力してください';
+      newErrors.endTime = "有効な時間を入力してください";
     }
 
     if (
@@ -105,7 +109,7 @@ export default function ScheduleForm({
       isValidTime(formData.endTime) &&
       !isValidTimeRange(formData.startTime, formData.endTime)
     ) {
-      newErrors.endTime = '終了時間は開始時間より後にしてください';
+      newErrors.endTime = "終了時間は開始時間より後にしてください";
     }
 
     setErrors(newErrors);
@@ -122,15 +126,13 @@ export default function ScheduleForm({
     try {
       setLoading(true);
 
-      const url = schedule
-        ? `/api/schedules/${schedule.id}`
-        : '/api/schedules';
-      const method = schedule ? 'PUT' : 'POST';
+      const url = schedule ? `/api/schedules/${schedule.id}` : "/api/schedules";
+      const method = schedule ? "PUT" : "POST";
 
       const response = await fetch(url, {
         method,
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
@@ -141,15 +143,17 @@ export default function ScheduleForm({
         if (onSuccess) {
           onSuccess();
         } else {
-          router.push('/schedules');
+          // after creating/updating, go back to the calendar (root) so the saved
+          // schedule is visible immediately
+          router.push("/");
           router.refresh();
         }
       } else {
-        alert(data.error || '保存に失敗しました');
+        alert(data.error || "保存に失敗しました");
       }
     } catch (error) {
-      console.error('Failed to save schedule:', error);
-      alert('保存中にエラーが発生しました');
+      console.error("Failed to save schedule:", error);
+      alert("保存中にエラーが発生しました");
     } finally {
       setLoading(false);
     }
@@ -158,7 +162,7 @@ export default function ScheduleForm({
   const handleDelete = async () => {
     if (!schedule) return;
 
-    if (!confirm('この予定を削除しますか？')) {
+    if (!confirm("この予定を削除しますか？")) {
       return;
     }
 
@@ -166,20 +170,21 @@ export default function ScheduleForm({
       setLoading(true);
 
       const response = await fetch(`/api/schedules/${schedule.id}`, {
-        method: 'DELETE',
+        method: "DELETE",
       });
 
       const data = await response.json();
 
       if (data.success) {
-        router.push('/schedules');
+        // go back to calendar after delete
+        router.push("/");
         router.refresh();
       } else {
-        alert(data.error || '削除に失敗しました');
+        alert(data.error || "削除に失敗しました");
       }
     } catch (error) {
-      console.error('Failed to delete schedule:', error);
-      alert('削除中にエラーが発生しました');
+      console.error("Failed to delete schedule:", error);
+      alert("削除中にエラーが発生しました");
     } finally {
       setLoading(false);
     }
@@ -281,7 +286,7 @@ export default function ScheduleForm({
               key={cat.defaultColor}
               type="button"
               className={`${styles.colorOption} ${
-                formData.color === cat.defaultColor ? styles.selected : ''
+                formData.color === cat.defaultColor ? styles.selected : ""
               }`}
               style={{ backgroundColor: cat.defaultColor }}
               onClick={() => handleColorSelect(cat.defaultColor)}
@@ -346,7 +351,7 @@ export default function ScheduleForm({
           className={`${styles.button} ${styles.buttonPrimary}`}
           disabled={loading}
         >
-          {loading ? '保存中...' : schedule ? '更新' : '作成'}
+          {loading ? "保存中..." : schedule ? "更新" : "作成"}
         </button>
       </div>
     </form>

@@ -24,6 +24,42 @@
   align-items: center;
 }
 
+.gotoForm {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.gotoInput,
+.gotoSelect {
+  padding: 6px 8px;
+  border: 1px solid #e5e7eb;
+  background: white;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.gotoInput {
+  width: 100px;
+}
+
+.gotoSelect {
+  width: 64px;
+}
+
+.gotoButton {
+  padding: 6px 10px;
+  border: 1px solid #e5e7eb;
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.gotoButton:hover {
+  background: #f3f4f6;
+}
+
 .navButton {
   padding: 8px 16px;
   border: 1px solid #e5e7eb;

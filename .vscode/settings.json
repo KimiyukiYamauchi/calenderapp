@@ -1,0 +1,11 @@
+{
+  "chat.agent.maxRequests": 100,
+  "files.autoSave": "afterDelay",
+  "chat.tools.terminal.autoReplyToPrompts": true,
+  "chat.tools.edits.autoApprove": {
+    "**/{package.json,package-lock.json,server.xml,build.rs,web.config,.gitattributes,.env}": true,
+    "**/.git/**": true,
+    "**/.vscode/*.json": true,
+    "**/*.{csproj,fsproj,vbproj}": true
+  }
+}

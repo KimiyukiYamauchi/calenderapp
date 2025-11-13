@@ -1,19 +1,20 @@
 // components/ImageUpload/ImageUpload.tsx
 
-'use client';
+"use client";
 
-import { useState, useRef } from 'react';
-import { useRouter } from 'next/navigation';
-import type { OCRResult, Category, ScheduleInput } from '@/lib/types';
-import { CATEGORIES } from '@/lib/types';
-import { formatDate } from '@/lib/utils';
-import styles from './ImageUpload.module.css';
+import { useState, useRef } from "react";
+import { useRouter } from "next/navigation";
+import type { OCRResult, Category, ScheduleInput } from "@/lib/types";
+import { CATEGORIES } from "@/lib/types";
+import { formatDate } from "@/lib/utils";
+import styles from "./ImageUpload.module.css";
 
 export default function ImageUpload() {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [personName, setPersonName] = useState<string>("");
   const [dragOver, setDragOver] = useState(false);
   const [loading, setLoading] = useState(false);
   const [ocrResults, setOcrResults] = useState<OCRResult[]>([]);
@@ -22,8 +23,8 @@ export default function ImageUpload() {
   const [success, setSuccess] = useState(false);
 
   const handleFileSelect = (file: File) => {
-    if (!file.type.startsWith('image/')) {
-      alert('画像ファイルを選択してください');
+    if (!file.type.startsWith("image/")) {
+      alert("画像ファイルを選択してください");
       return;
     }
 
@@ -76,10 +77,11 @@ export default function ImageUpload() {
       setError(null);
 
       const formData = new FormData();
-      formData.append('image', previewUrl);
+      formData.append("image", previewUrl);
+      formData.append("name", personName || "");
 
-      const response = await fetch('/api/ocr', {
-        method: 'POST',
+      const response = await fetch("/api/ocr", {
+        method: "POST",
         body: formData,
       });
 
@@ -90,31 +92,38 @@ export default function ImageUpload() {
 
         // OCR結果を編集可能な形式に変換
         const today = formatDate(new Date());
-        const schedules: ScheduleInput[] = data.data.map((result: OCRResult) => {
-          const category = CATEGORIES.find((c) => c.value === result.category);
-          return {
-            date: result.date || today,
-            startTime: result.startTime || '09:00',
-            endTime: result.endTime || '10:00',
-            title: result.title,
-            description: result.description || '',
-            category: result.category || 'other',
-            color: category?.defaultColor || CATEGORIES[3].defaultColor,
-            completed: false,
-          };
-        });
+        const schedules: ScheduleInput[] = data.data.map(
+          (result: OCRResult) => {
+            const category = CATEGORIES.find(
+              (c) => c.value === result.category
+            );
+            return {
+              date: result.date || today,
+              startTime: result.startTime || "09:00",
+              endTime: result.endTime || "10:00",
+              title: result.title,
+              description: result.description || "",
+              category: result.category || "other",
+              color: category?.defaultColor || CATEGORIES[3].defaultColor,
+              completed: false,
+            };
+          }
+        );
 
         setEditedResults(schedules);
       } else {
-        setError(data.error || '予定の抽出に失敗しました');
+        setError(data.error || "予定の抽出に失敗しました");
       }
     } catch (err) {
-      console.error('OCR error:', err);
-      setError('OCR処理中にエラーが発生しました');
+      console.error("OCR error:", err);
+      setError("OCR処理中にエラーが発生しました");
     } finally {
       setLoading(false);
     }
   };
+
+  // If no name provided, require user to input before analyzing
+  const canAnalyze = !!personName.trim() && !!selectedFile && !!previewUrl;
 
   const handleResultChange = (
     index: number,
@@ -126,7 +135,7 @@ export default function ImageUpload() {
       updated[index] = { ...updated[index], [field]: value };
 
       // カテゴリー変更時に色も更新
-      if (field === 'category') {
+      if (field === "category") {
         const category = CATEGORIES.find((c) => c.value === value);
         if (category) {
           updated[index].color = category.defaultColor;
@@ -142,11 +151,15 @@ export default function ImageUpload() {
 
     // バリデーション
     const hasError = editedResults.some(
-      (result) => !result.title.trim() || !result.date || !result.startTime || !result.endTime
+      (result) =>
+        !result.title.trim() ||
+        !result.date ||
+        !result.startTime ||
+        !result.endTime
     );
 
     if (hasError) {
-      alert('すべての必須項目を入力してください');
+      alert("すべての必須項目を入力してください");
       return;
     }
 
@@ -154,10 +167,10 @@ export default function ImageUpload() {
       setLoading(true);
       setError(null);
 
-      const response = await fetch('/api/schedules', {
-        method: 'POST',
+      const response = await fetch("/api/schedules", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(editedResults),
       });
@@ -167,15 +180,15 @@ export default function ImageUpload() {
       if (data.success) {
         setSuccess(true);
         setTimeout(() => {
-          router.push('/schedules');
+          router.push("/schedules");
           router.refresh();
         }, 1500);
       } else {
-        setError(data.error || '保存に失敗しました');
+        setError(data.error || "保存に失敗しました");
       }
     } catch (err) {
-      console.error('Save error:', err);
-      setError('保存中にエラーが発生しました');
+      console.error("Save error:", err);
+      setError("保存中にエラーが発生しました");
     } finally {
       setLoading(false);
     }
@@ -189,7 +202,7 @@ export default function ImageUpload() {
     setError(null);
     setSuccess(false);
     if (fileInputRef.current) {
-      fileInputRef.current.value = '';
+      fileInputRef.current.value = "";
     }
   };
 
@@ -200,7 +213,9 @@ export default function ImageUpload() {
       {!selectedFile && (
         <>
           <div
-            className={`${styles.uploadArea} ${dragOver ? styles.dragOver : ''}`}
+            className={`${styles.uploadArea} ${
+              dragOver ? styles.dragOver : ""
+            }`}
             onClick={handleUploadClick}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
@@ -224,6 +239,20 @@ export default function ImageUpload() {
         </>
       )}
 
+      {/* 名前を先に入力してもらう */}
+      <div style={{ marginTop: 12 }}>
+        <label style={{ display: "block", marginBottom: 6 }}>
+          名前（抽出対象）
+        </label>
+        <input
+          type="text"
+          value={personName}
+          onChange={(e) => setPersonName(e.target.value)}
+          placeholder="例: 田中 太郎"
+          style={{ padding: 8, width: "100%", maxWidth: 360 }}
+        />
+      </div>
+
       {selectedFile && previewUrl && !loading && editedResults.length === 0 && (
         <div className={styles.preview}>
           <img src={previewUrl} alt="Preview" className={styles.previewImage} />
@@ -237,6 +266,12 @@ export default function ImageUpload() {
             <button
               className={`${styles.button} ${styles.buttonPrimary}`}
               onClick={handleAnalyze}
+              disabled={!canAnalyze}
+              title={
+                !canAnalyze
+                  ? "画像と抽出対象の名前を指定してください"
+                  : "予定を抽出"
+              }
             >
               予定を抽出
             </button>
@@ -248,9 +283,7 @@ export default function ImageUpload() {
         <div className={styles.loading}>
           <div className={styles.loadingSpinner}></div>
           <div className={styles.loadingText}>
-            {editedResults.length === 0
-              ? '画像を解析中...'
-              : '予定を保存中...'}
+            {editedResults.length === 0 ? "画像を解析中..." : "予定を保存中..."}
           </div>
         </div>
       )}
@@ -274,7 +307,9 @@ export default function ImageUpload() {
 
           <div className={styles.resultsList}>
             {editedResults.map((result, index) => {
-              const category = CATEGORIES.find((c) => c.value === result.category);
+              const category = CATEGORIES.find(
+                (c) => c.value === result.category
+              );
               return (
                 <div key={index} className={styles.resultItem}>
                   <div className={styles.resultItemHeader}>
@@ -282,10 +317,10 @@ export default function ImageUpload() {
                       type="text"
                       value={result.title}
                       onChange={(e) =>
-                        handleResultChange(index, 'title', e.target.value)
+                        handleResultChange(index, "title", e.target.value)
                       }
                       className={styles.resultItemTitle}
-                      style={{ border: 'none', outline: 'none', width: '100%' }}
+                      style={{ border: "none", outline: "none", width: "100%" }}
                     />
                     <span
                       className={styles.resultItemBadge}
@@ -302,7 +337,7 @@ export default function ImageUpload() {
                         type="date"
                         value={result.date}
                         onChange={(e) =>
-                          handleResultChange(index, 'date', e.target.value)
+                          handleResultChange(index, "date", e.target.value)
                         }
                         className={styles.resultItemInput}
                       />
@@ -314,7 +349,7 @@ export default function ImageUpload() {
                         type="time"
                         value={result.startTime}
                         onChange={(e) =>
-                          handleResultChange(index, 'startTime', e.target.value)
+                          handleResultChange(index, "startTime", e.target.value)
                         }
                         className={styles.resultItemInput}
                       />
@@ -326,20 +361,22 @@ export default function ImageUpload() {
                         type="time"
                         value={result.endTime}
                         onChange={(e) =>
-                          handleResultChange(index, 'endTime', e.target.value)
+                          handleResultChange(index, "endTime", e.target.value)
                         }
                         className={styles.resultItemInput}
                       />
                     </div>
 
                     <div className={styles.resultItemField}>
-                      <label className={styles.resultItemLabel}>カテゴリー</label>
+                      <label className={styles.resultItemLabel}>
+                        カテゴリー
+                      </label>
                       <select
                         value={result.category}
                         onChange={(e) =>
                           handleResultChange(
                             index,
-                            'category',
+                            "category",
                             e.target.value as Category
                           )
                         }
@@ -359,7 +396,7 @@ export default function ImageUpload() {
                     <textarea
                       value={result.description}
                       onChange={(e) =>
-                        handleResultChange(index, 'description', e.target.value)
+                        handleResultChange(index, "description", e.target.value)
                       }
                       className={styles.resultItemTextarea}
                       placeholder="予定の詳細..."

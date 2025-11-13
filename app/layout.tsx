@@ -1,12 +1,12 @@
 // app/layout.tsx
 
-import type { Metadata } from 'next';
-import Link from 'next/link';
-import './globals.css';
+import type { Metadata } from "next";
+import Link from "next/link";
+import "./globals.css";
 
 export const metadata: Metadata = {
-  title: '月間予定管理アプリ',
-  description: '画像読み込みと手入力に対応した予定管理アプリ',
+  title: "月間予定管理アプリ",
+  description: "画像読み込みと手入力に対応した予定管理アプリ",
 };
 
 export default function RootLayout({
@@ -29,9 +29,7 @@ export default function RootLayout({
               <Link href="/schedules" className="header-link">
                 予定一覧
               </Link>
-              <Link href="/schedules/new" className="header-link">
-                新規作成
-              </Link>
+              {/* 新規作成ページはモーダルや画像アップロードに統合したためリンクを削除 */}
               <Link href="/schedules/upload" className="header-link">
                 画像アップロード
               </Link>
