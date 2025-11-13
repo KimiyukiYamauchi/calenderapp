@@ -1,11 +1,11 @@
 // components/Calendar/Calendar.tsx
 
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import type { Schedule, CalendarDay } from '@/lib/types';
-import { generateCalendarDays, getMonthName, getDayName } from '@/lib/utils';
-import styles from './Calendar.module.css';
+import { useState, useEffect } from "react";
+import type { Schedule, CalendarDay } from "@/lib/types";
+import { generateCalendarDays, getMonthName, getDayName } from "@/lib/utils";
+import styles from "./Calendar.module.css";
 
 interface CalendarProps {
   onDayClick?: (date: Date, schedules: Schedule[]) => void;
@@ -45,10 +45,10 @@ export default function Calendar({ onDayClick }: CalendarProps) {
       if (data.success) {
         setSchedules(data.data || []);
       } else {
-        setError(data.error || '予定の取得に失敗しました');
+        setError(data.error || "予定の取得に失敗しました");
       }
     } catch (err) {
-      setError('予定の取得中にエラーが発生しました');
+      setError("予定の取得中にエラーが発生しました");
       console.error(err);
     } finally {
       setLoading(false);
@@ -120,7 +120,7 @@ export default function Calendar({ onDayClick }: CalendarProps) {
                   ? styles.sunday
                   : dayIndex === 6
                   ? styles.saturday
-                  : ''
+                  : ""
               }`}
             >
               {getDayName(dayIndex)}
@@ -138,15 +138,13 @@ export default function Calendar({ onDayClick }: CalendarProps) {
               <div
                 key={index}
                 className={`${styles.day} ${
-                  !day.isCurrentMonth ? styles.otherMonth : ''
-                } ${day.isToday ? styles.today : ''} ${
-                  isSunday ? styles.sunday : ''
-                } ${isSaturday ? styles.saturday : ''}`}
+                  !day.isCurrentMonth ? styles.otherMonth : ""
+                } ${day.isToday ? styles.today : ""} ${
+                  isSunday ? styles.sunday : ""
+                } ${isSaturday ? styles.saturday : ""}`}
                 onClick={() => handleDayClick(day)}
               >
-                <div className={styles.dayNumber}>
-                  {day.date.getDate()}
-                </div>
+                <div className={styles.dayNumber}>{day.date.getDate()}</div>
 
                 <div className={styles.scheduleList}>
                   {day.schedules.slice(0, 3).map((schedule) => (
