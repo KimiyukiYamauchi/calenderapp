@@ -75,7 +75,7 @@ __turbopack_context__.s([
     "updateSchedule",
     ()=>updateSchedule
 ]);
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$microcms$2d$js$2d$sdk$2f$dist$2f$esm$2f$microcms$2d$js$2d$sdk$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/microcms-js-sdk/dist/esm/microcms-js-sdk.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$microcms$2d$js$2d$sdk$2f$dist$2f$esm$2f$microcms$2d$js$2d$sdk$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/calenderapp/node_modules/microcms-js-sdk/dist/esm/microcms-js-sdk.js [app-route] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$externals$5d2f$fs$2f$promises__$5b$external$5d$__$28$fs$2f$promises$2c$__cjs$29$__ = __turbopack_context__.i("[externals]/fs/promises [external] (fs/promises, cjs)");
 var __TURBOPACK__imported__module__$5b$externals$5d2f$path__$5b$external$5d$__$28$path$2c$__cjs$29$__ = __turbopack_context__.i("[externals]/path [external] (path, cjs)");
 ;
@@ -84,7 +84,7 @@ var __TURBOPACK__imported__module__$5b$externals$5d2f$path__$5b$external$5d$__$2
 // If microCMS environment variables are provided, use the real client.
 // Otherwise fall back to a simple in-memory store for local development.
 const hasMicroCMSEnv = !!process.env.MICROCMS_SERVICE_DOMAIN && !!process.env.MICROCMS_API_KEY;
-const client = hasMicroCMSEnv ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$microcms$2d$js$2d$sdk$2f$dist$2f$esm$2f$microcms$2d$js$2d$sdk$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["createClient"])({
+const client = hasMicroCMSEnv ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$microcms$2d$js$2d$sdk$2f$dist$2f$esm$2f$microcms$2d$js$2d$sdk$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["createClient"])({
     serviceDomain: process.env.MICROCMS_SERVICE_DOMAIN,
     apiKey: process.env.MICROCMS_API_KEY
 }) : null;
@@ -300,7 +300,7 @@ __turbopack_context__.s([
     "POST",
     ()=>POST
 ]);
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/server.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/calenderapp/node_modules/next/server.js [app-route] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$lib$2f$microcms$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/calenderapp/lib/microcms.ts [app-route] (ecmascript)");
 ;
 ;
@@ -310,13 +310,13 @@ async function GET(request) {
         const year = searchParams.get("year");
         const month = searchParams.get("month");
         const schedules = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$lib$2f$microcms$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["getSchedules"])(year ? parseInt(year) : undefined, month ? parseInt(month) : undefined);
-        return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+        return __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             success: true,
             data: schedules
         });
     } catch (error) {
         console.error("Failed to fetch schedules:", error);
-        return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+        return __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             success: false,
             error: "予定の取得に失敗しました"
         }, {
@@ -330,7 +330,7 @@ async function POST(request) {
         // 一括作成の場合
         if (Array.isArray(body)) {
             const schedules = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$lib$2f$microcms$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["createScheduleBulk"])(body);
-            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+            return __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
                 success: true,
                 data: schedules
             }, {
@@ -339,7 +339,7 @@ async function POST(request) {
         }
         // 単体作成の場合
         const schedule = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$lib$2f$microcms$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["createSchedule"])(body);
-        return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+        return __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             success: true,
             data: schedule
         }, {
@@ -347,7 +347,7 @@ async function POST(request) {
         });
     } catch (error) {
         console.error("Failed to create schedule:", error);
-        return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+        return __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             success: false,
             error: "予定の作成に失敗しました"
         }, {

@@ -11,24 +11,24 @@
 ]);
 const CATEGORIES = [
     {
-        value: 'work',
-        label: '仕事',
-        defaultColor: '#3B82F6'
+        value: "work",
+        label: "仕事",
+        defaultColor: "#3B82F6"
     },
     {
-        value: 'private',
-        label: 'プライベート',
-        defaultColor: '#10B981'
+        value: "private",
+        label: "プライベート",
+        defaultColor: "#10B981"
     },
     {
-        value: 'event',
-        label: 'イベント',
-        defaultColor: '#F59E0B'
+        value: "event",
+        label: "イベント",
+        defaultColor: "#F59E0B"
     },
     {
-        value: 'other',
-        label: 'その他',
-        defaultColor: '#8B5CF6'
+        value: "other",
+        label: "その他",
+        defaultColor: "#8B5CF6"
     }
 ];
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {

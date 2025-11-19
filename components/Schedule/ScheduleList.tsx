@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import type { Schedule } from "@/lib/types";
 import styles from "../Schedule/Schedule.module.css";
 
@@ -34,6 +35,7 @@ function groupByTitle(schedules: Schedule[]): Grouped[] {
 }
 
 export default function ScheduleList() {
+  const router = useRouter();
   const [groups, setGroups] = useState<Grouped[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -90,14 +92,27 @@ export default function ScheduleList() {
 
               <ul>
                 {g.items.map((s) => (
-                  <li key={s.id}>
-                    <div className={styles.cardMeta}>
+                  <li
+                    key={s.id}
+                    onDoubleClick={() => {
+                      // ダブルクリックでカレンダーの該当日に移動
+                      // 日付は YYYY-MM-DD 形式をそのまま渡す
+                      router.push(`/?focus=${encodeURIComponent(s.date)}`);
+                    }}
+                    style={{ cursor: "pointer" }}
+                    title="ダブルクリックでカレンダーに移動"
+                  >
+                    <div
+                      className={`${styles.cardMeta} ${styles.nonInteractive}`}
+                    >
                       <span>
                         {s.date} {s.startTime}
                         {s.endTime ? ` - ${s.endTime}` : ""}
                       </span>
                     </div>
-                    <div className={styles.cardDescription}>
+                    <div
+                      className={`${styles.cardDescription} ${styles.nonInteractive}`}
+                    >
                       {s.title ? "" : "（タイトルなし）"}
                       {s.description || ""}
                     </div>

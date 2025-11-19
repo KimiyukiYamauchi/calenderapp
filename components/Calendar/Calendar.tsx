@@ -1,9 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import type { Schedule, CalendarDay } from "@/lib/types";
 import { generateCalendarDays, getMonthName, getDayName } from "@/lib/utils";
 import styles from "./Calendar.module.css";
+import QuickAddModal from "@/components/Schedule/QuickAddModal";
 
 interface CalendarProps {
   onDayClick?: (date: Date, schedules: Schedule[]) => void;
@@ -15,9 +17,13 @@ export default function Calendar({ onDayClick }: CalendarProps) {
   const [calendarDays, setCalendarDays] = useState<CalendarDay[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [quickAddOpen, setQuickAddOpen] = useState(false);
+  const [quickAddDate, setQuickAddDate] = useState<Date | null>(null);
 
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth() + 1;
+
+  const searchParams = useSearchParams();
 
   // ヘッダの年/月入力用 (ユーザーが直接指定して移動できる)
   const [inputYear, setInputYear] = useState<number>(year);
@@ -28,6 +34,18 @@ export default function Calendar({ onDayClick }: CalendarProps) {
     setInputYear(year);
     setInputMonth(month);
   }, [year, month]);
+
+  // URL クエリに focus=YYYY-MM-DD があればその月へ移動する
+  useEffect(() => {
+    const focus = searchParams?.get?.("focus");
+    if (focus) {
+      const d = new Date(focus);
+      if (!isNaN(d.getTime())) {
+        setCurrentDate(new Date(d.getFullYear(), d.getMonth(), 1));
+      }
+    }
+    // searchParams は参照型なので依存配列に入れる
+  }, [searchParams]);
 
   // 予定を取得
   useEffect(() => {
@@ -89,6 +107,22 @@ export default function Calendar({ onDayClick }: CalendarProps) {
     if (onDayClick) {
       onDayClick(day.date, day.schedules);
     }
+  };
+
+  const handleDayDoubleClick = (day: CalendarDay) => {
+    setQuickAddDate(day.date);
+    setQuickAddOpen(true);
+  };
+
+  const handleQuickAddClose = () => {
+    setQuickAddOpen(false);
+    setQuickAddDate(null);
+  };
+
+  const handleQuickAddSaved = async () => {
+    // モーダル内で保存したあとに予定を再取得してカレンダーを更新する
+    handleQuickAddClose();
+    await fetchSchedules();
   };
 
   if (loading) {
@@ -191,6 +225,7 @@ export default function Calendar({ onDayClick }: CalendarProps) {
                   isSunday ? styles.sunday : ""
                 } ${isSaturday ? styles.saturday : ""}`}
                 onClick={() => handleDayClick(day)}
+                onDoubleClick={() => handleDayDoubleClick(day)}
               >
                 <div className={styles.dayNumber}>{day.date.getDate()}</div>
 
@@ -216,6 +251,13 @@ export default function Calendar({ onDayClick }: CalendarProps) {
           })}
         </div>
       </div>
+      {quickAddOpen && quickAddDate && (
+        <QuickAddModal
+          initialDate={quickAddDate}
+          onClose={handleQuickAddClose}
+          onSaved={handleQuickAddSaved}
+        />
+      )}
     </div>
   );
 }

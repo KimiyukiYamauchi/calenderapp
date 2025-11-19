@@ -236,6 +236,15 @@
   line-height: 1.5;
 }
 
+/* 表示のみ（選択やクリックを妨げない） */
+.nonInteractive {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  pointer-events: none;
+}
+
 .cardCompleted {
   opacity: 0.6;
 }

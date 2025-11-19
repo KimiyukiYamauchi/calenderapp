@@ -23,6 +23,41 @@
   display: flex;
 }
 
+.Calendar-module__G1O1Vq__gotoForm {
+  align-items: center;
+  gap: 8px;
+  display: flex;
+}
+
+.Calendar-module__G1O1Vq__gotoInput, .Calendar-module__G1O1Vq__gotoSelect {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 6px 8px;
+  font-size: 14px;
+}
+
+.Calendar-module__G1O1Vq__gotoInput {
+  width: 100px;
+}
+
+.Calendar-module__G1O1Vq__gotoSelect {
+  width: 64px;
+}
+
+.Calendar-module__G1O1Vq__gotoButton {
+  cursor: pointer;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 14px;
+}
+
+.Calendar-module__G1O1Vq__gotoButton:hover {
+  background: #f3f4f6;
+}
+
 .Calendar-module__G1O1Vq__navButton {
   cursor: pointer;
   background: #fff;

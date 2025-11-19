@@ -3,7 +3,7 @@
 /**
  * カテゴリーの型
  */
-export type Category = 'work' | 'private' | 'event' | 'other';
+export type Category = "work" | "private" | "event" | "other";
 
 /**
  * 画像情報の型
@@ -57,6 +57,10 @@ export interface OCRResult {
   title: string;
   description?: string;
   category?: Category;
+  // 抽出された担当者名（あれば複数）
+  assignedTo?: string[];
+  // 抽出に使った元のテキスト断片（デバッグ用）
+  rawText?: string;
 }
 
 /**
@@ -73,24 +77,24 @@ export interface CategoryInfo {
  */
 export const CATEGORIES: CategoryInfo[] = [
   {
-    value: 'work',
-    label: '仕事',
-    defaultColor: '#3B82F6', // blue-500
+    value: "work",
+    label: "仕事",
+    defaultColor: "#3B82F6", // blue-500
   },
   {
-    value: 'private',
-    label: 'プライベート',
-    defaultColor: '#10B981', // green-500
+    value: "private",
+    label: "プライベート",
+    defaultColor: "#10B981", // green-500
   },
   {
-    value: 'event',
-    label: 'イベント',
-    defaultColor: '#F59E0B', // amber-500
+    value: "event",
+    label: "イベント",
+    defaultColor: "#F59E0B", // amber-500
   },
   {
-    value: 'other',
-    label: 'その他',
-    defaultColor: '#8B5CF6', // violet-500
+    value: "other",
+    label: "その他",
+    defaultColor: "#8B5CF6", // violet-500
   },
 ];
 

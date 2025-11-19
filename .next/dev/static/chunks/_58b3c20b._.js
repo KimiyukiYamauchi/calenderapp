@@ -104,7 +104,7 @@ function ScheduleList() {
         children: "読み込み中..."
     }, void 0, false, {
         fileName: "[project]/calenderapp/components/Schedule/ScheduleList.tsx",
-        lineNumber: 67,
+        lineNumber: 68,
         columnNumber: 23
     }, this);
     if (error) return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -112,7 +112,7 @@ function ScheduleList() {
         children: error
     }, void 0, false, {
         fileName: "[project]/calenderapp/components/Schedule/ScheduleList.tsx",
-        lineNumber: 68,
+        lineNumber: 69,
         columnNumber: 21
     }, this);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -125,12 +125,12 @@ function ScheduleList() {
                     children: "予定一覧（タイトル別）"
                 }, void 0, false, {
                     fileName: "[project]/calenderapp/components/Schedule/ScheduleList.tsx",
-                    lineNumber: 73,
+                    lineNumber: 74,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/calenderapp/components/Schedule/ScheduleList.tsx",
-                lineNumber: 72,
+                lineNumber: 73,
                 columnNumber: 7
             }, this),
             groups.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -138,7 +138,7 @@ function ScheduleList() {
                 children: "予定がありません"
             }, void 0, false, {
                 fileName: "[project]/calenderapp/components/Schedule/ScheduleList.tsx",
-                lineNumber: 77,
+                lineNumber: 78,
                 columnNumber: 9
             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$Schedule$2f$Schedule$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].scheduleItems,
@@ -160,27 +160,36 @@ function ScheduleList() {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/calenderapp/components/Schedule/ScheduleList.tsx",
-                                                lineNumber: 86,
+                                                lineNumber: 87,
                                                 columnNumber: 21
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/calenderapp/components/Schedule/ScheduleList.tsx",
-                                            lineNumber: 85,
+                                            lineNumber: 86,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/calenderapp/components/Schedule/ScheduleList.tsx",
-                                    lineNumber: 83,
+                                    lineNumber: 84,
                                     columnNumber: 17
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/calenderapp/components/Schedule/ScheduleList.tsx",
-                                lineNumber: 82,
+                                lineNumber: 83,
                                 columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
                                 children: g.items.map((s)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                        onDoubleClick: ()=>{
+                                            // ダブルクリックでカレンダーの該当日に移動
+                                            // 日付は YYYY-MM-DD 形式をそのまま渡す
+                                            router.push(`/?focus=${encodeURIComponent(s.date)}`);
+                                        },
+                                        style: {
+                                            cursor: "pointer"
+                                        },
+                                        title: "ダブルクリックでカレンダーに移動",
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                 className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$Schedule$2f$Schedule$2e$module$2e$css__$5b$app$2d$client$5d$__$28$css__module$29$__["default"].cardMeta,
@@ -193,12 +202,12 @@ function ScheduleList() {
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/calenderapp/components/Schedule/ScheduleList.tsx",
-                                                    lineNumber: 95,
+                                                    lineNumber: 105,
                                                     columnNumber: 23
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/calenderapp/components/Schedule/ScheduleList.tsx",
-                                                lineNumber: 94,
+                                                lineNumber: 104,
                                                 columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -209,35 +218,35 @@ function ScheduleList() {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/calenderapp/components/Schedule/ScheduleList.tsx",
-                                                lineNumber: 100,
+                                                lineNumber: 110,
                                                 columnNumber: 21
                                             }, this)
                                         ]
                                     }, s.id, true, {
                                         fileName: "[project]/calenderapp/components/Schedule/ScheduleList.tsx",
-                                        lineNumber: 93,
+                                        lineNumber: 94,
                                         columnNumber: 19
                                     }, this))
                             }, void 0, false, {
                                 fileName: "[project]/calenderapp/components/Schedule/ScheduleList.tsx",
-                                lineNumber: 91,
+                                lineNumber: 92,
                                 columnNumber: 15
                             }, this)
                         ]
                     }, g.title, true, {
                         fileName: "[project]/calenderapp/components/Schedule/ScheduleList.tsx",
-                        lineNumber: 81,
+                        lineNumber: 82,
                         columnNumber: 13
                     }, this))
             }, void 0, false, {
                 fileName: "[project]/calenderapp/components/Schedule/ScheduleList.tsx",
-                lineNumber: 79,
+                lineNumber: 80,
                 columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/calenderapp/components/Schedule/ScheduleList.tsx",
-        lineNumber: 71,
+        lineNumber: 72,
         columnNumber: 5
     }, this);
 }
