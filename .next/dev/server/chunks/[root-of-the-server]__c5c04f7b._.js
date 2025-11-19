@@ -64,12 +64,14 @@ module.exports = mod;
 
 // app/api/ocr/route.ts
 __turbopack_context__.s([
+    "GET",
+    ()=>GET,
     "POST",
     ()=>POST
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/calenderapp/node_modules/next/server.js [app-route] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f40$anthropic$2d$ai$2f$sdk$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$locals$3e$__ = __turbopack_context__.i("[project]/calenderapp/node_modules/@anthropic-ai/sdk/index.mjs [app-route] (ecmascript) <locals>");
-var __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f40$anthropic$2d$ai$2f$sdk$2f$client$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$export__Anthropic__as__default$3e$__ = __turbopack_context__.i("[project]/calenderapp/node_modules/@anthropic-ai/sdk/client.mjs [app-route] (ecmascript) <export Anthropic as default>");
+// Anthropic SDK is dynamically imported inside the handler to avoid
+// build-time failures on platforms where the package cannot be resolved.
 var __TURBOPACK__imported__module__$5b$externals$5d2f$fs__$5b$external$5d$__$28$fs$2c$__cjs$29$__ = __turbopack_context__.i("[externals]/fs [external] (fs, cjs)");
 var __TURBOPACK__imported__module__$5b$externals$5d2f$path__$5b$external$5d$__$28$path$2c$__cjs$29$__ = __turbopack_context__.i("[externals]/path [external] (path, cjs)");
 var __TURBOPACK__imported__module__$5b$externals$5d2f$os__$5b$external$5d$__$28$os$2c$__cjs$29$__ = __turbopack_context__.i("[externals]/os [external] (os, cjs)");
@@ -77,10 +79,7 @@ var __TURBOPACK__imported__module__$5b$externals$5d2f$os__$5b$external$5d$__$28$
 ;
 ;
 ;
-;
-const anthropic = new __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f40$anthropic$2d$ai$2f$sdk$2f$client$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$export__Anthropic__as__default$3e$__["default"]({
-    apiKey: process.env.ANTHROPIC_API_KEY
-});
+// note: anthropic client will be created dynamically when needed
 // Helper: perform local Tesseract OCR on base64 image and return raw text
 async function performTesseractOCR(base64Data) {
     try {
@@ -106,6 +105,13 @@ async function performTesseractOCR(base64Data) {
         console.error("Tesseract OCR error:", err);
         throw err;
     }
+}
+async function GET() {
+    return __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+        success: true,
+        data: [],
+        info: "OCR endpoint (POST) is available"
+    });
 }
 async function POST(request) {
     try {
@@ -138,7 +144,13 @@ async function POST(request) {
         let message = null;
         if (hasAnthropicKey) {
             try {
-                message = await anthropic.messages.create({
+                // Dynamic import to avoid build/runtime issues when package is not
+                // available or cannot be loaded in the target environment.
+                const { default: Anthropic } = await __turbopack_context__.A("[project]/calenderapp/node_modules/@anthropic-ai/sdk/index.mjs [app-route] (ecmascript, async loader)");
+                const anthClient = new Anthropic({
+                    apiKey: process.env.ANTHROPIC_API_KEY
+                });
+                message = await anthClient.messages.create({
                     model: "claude-sonnet-4-20250514",
                     max_tokens: 2000,
                     messages: [
@@ -162,7 +174,7 @@ async function POST(request) {
                     ]
                 });
             } catch (llmError) {
-                console.error("Anthropic API error - falling back to Tesseract:", llmError);
+                console.error("Anthropic import/call error - falling back to Tesseract:", llmError);
                 message = null;
             }
         }
