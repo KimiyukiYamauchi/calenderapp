@@ -1,0 +1,13 @@
+var R=require("../../chunks/ssr/[turbopack]_runtime.js")("server/app/_not-found/page.js")
+R.c("server/chunks/ssr/[root-of-the-server]__792b8940._.js")
+R.c("server/chunks/ssr/9ebee_next_dist_d7e6daa9._.js")
+R.c("server/chunks/ssr/9ebee_next_dist_esm_build_templates_app-page_2e84f8f4.js")
+R.c("server/chunks/ssr/[root-of-the-server]__a0d102d0._.js")
+R.c("server/chunks/ssr/[root-of-the-server]__ccc5108c._.js")
+R.c("server/chunks/ssr/9ebee_next_dist_304f5f35._.js")
+R.c("server/chunks/ssr/calenderapp_3c7d4616._.js")
+R.c("server/chunks/ssr/9ebee_next_dist_client_components_371c534c._.js")
+R.c("server/chunks/ssr/9ebee_next_dist_client_components_builtin_forbidden_df4d61cd.js")
+R.c("server/chunks/ssr/calenderapp__next-internal_server_app__not-found_page_actions_10f7ccc0.js")
+R.m(62431)
+module.exports=R.m(62431).exports
