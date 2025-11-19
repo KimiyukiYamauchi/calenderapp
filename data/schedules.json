@@ -1,0 +1,41 @@
+[
+  {
+    "date": "2025-11-13",
+    "startTime": "09:00",
+    "endTime": "10:00",
+    "title": "テスト イベント モーダル",
+    "description": "desc",
+    "category": "work",
+    "color": "#3B82F6",
+    "id": "1763011450667-edwlmp5",
+    "completed": false,
+    "createdAt": "2025-11-13T05:24:10.667Z",
+    "updatedAt": "2025-11-13T05:24:10.667Z"
+  },
+  {
+    "date": "2025-11-13",
+    "startTime": "09:00",
+    "endTime": "10:00",
+    "title": "baito",
+    "description": "",
+    "category": "other",
+    "color": "#8B5CF6",
+    "completed": false,
+    "id": "1763012024818-mnhbmae",
+    "createdAt": "2025-11-13T05:33:44.818Z",
+    "updatedAt": "2025-11-13T05:33:44.818Z"
+  },
+  {
+    "date": "2025-11-13",
+    "startTime": "09:00",
+    "endTime": "10:00",
+    "title": "バイト",
+    "description": "",
+    "category": "other",
+    "color": "#8B5CF6",
+    "completed": false,
+    "id": "1763016331714-5s2m40x",
+    "createdAt": "2025-11-13T06:45:31.714Z",
+    "updatedAt": "2025-11-13T06:45:31.714Z"
+  }
+]

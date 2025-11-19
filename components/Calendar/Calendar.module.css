@@ -1,0 +1,245 @@
+/* components/Calendar/Calendar.module.css */
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding: 16px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.navigation {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.gotoForm {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.gotoInput,
+.gotoSelect {
+  padding: 6px 8px;
+  border: 1px solid #e5e7eb;
+  background: white;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.gotoInput {
+  width: 100px;
+}
+
+.gotoSelect {
+  width: 64px;
+}
+
+.gotoButton {
+  padding: 6px 10px;
+  border: 1px solid #e5e7eb;
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.gotoButton:hover {
+  background: #f3f4f6;
+}
+
+.navButton {
+  padding: 8px 16px;
+  border: 1px solid #e5e7eb;
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.navButton:hover {
+  background: #f3f4f6;
+  border-color: #d1d5db;
+}
+
+.navButton:active {
+  background: #e5e7eb;
+}
+
+.monthTitle {
+  font-size: 24px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.todayButton {
+  padding: 8px 16px;
+  border: none;
+  background: #3b82f6;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.todayButton:hover {
+  background: #2563eb;
+}
+
+.calendar {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.weekDays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.weekDay {
+  padding: 12px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.weekDay.sunday {
+  color: #ef4444;
+}
+
+.weekDay.saturday {
+  color: #3b82f6;
+}
+
+.days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+  background: #e5e7eb;
+}
+
+.day {
+  min-height: 120px;
+  padding: 8px;
+  background: white;
+  cursor: pointer;
+  transition: background 0.2s;
+  position: relative;
+}
+
+.day:hover {
+  background: #f9fafb;
+}
+
+.day.otherMonth {
+  background: #f9fafb;
+  color: #9ca3af;
+}
+
+.day.today {
+  background: #eff6ff;
+}
+
+.dayNumber {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: #111827;
+}
+
+.day.otherMonth .dayNumber {
+  color: #9ca3af;
+}
+
+.day.sunday .dayNumber {
+  color: #ef4444;
+}
+
+.day.saturday .dayNumber {
+  color: #3b82f6;
+}
+
+.scheduleList {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 4px;
+}
+
+.scheduleItem {
+  font-size: 11px;
+  padding: 2px 4px;
+  border-radius: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: white;
+  font-weight: 500;
+}
+
+.scheduleCount {
+  font-size: 11px;
+  color: #6b7280;
+  margin-top: 2px;
+  text-align: center;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: #6b7280;
+}
+
+.error {
+  text-align: center;
+  padding: 40px;
+  color: #ef4444;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 12px;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .monthTitle {
+    font-size: 20px;
+  }
+
+  .day {
+    min-height: 80px;
+    padding: 4px;
+  }
+
+  .dayNumber {
+    font-size: 12px;
+  }
+
+  .scheduleItem {
+    font-size: 10px;
+  }
+}

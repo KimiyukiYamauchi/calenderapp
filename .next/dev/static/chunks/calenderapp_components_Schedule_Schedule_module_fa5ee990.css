@@ -1,0 +1,264 @@
+/* [project]/calenderapp/components/Schedule/Schedule.module.css [app-client] (css) */
+.Schedule-module__I33aDW__form {
+  background: #fff;
+  border-radius: 8px;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 24px;
+  box-shadow: 0 1px 3px #0000001a;
+}
+
+.Schedule-module__I33aDW__formGroup {
+  margin-bottom: 20px;
+}
+
+.Schedule-module__I33aDW__label {
+  color: #374151;
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  display: block;
+}
+
+.Schedule-module__I33aDW__required {
+  color: #ef4444;
+  margin-left: 4px;
+}
+
+.Schedule-module__I33aDW__input, .Schedule-module__I33aDW__textarea, .Schedule-module__I33aDW__select {
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 14px;
+  transition: border-color .2s;
+}
+
+.Schedule-module__I33aDW__input:focus, .Schedule-module__I33aDW__textarea:focus, .Schedule-module__I33aDW__select:focus {
+  border-color: #3b82f6;
+  outline: none;
+  box-shadow: 0 0 0 3px #3b82f61a;
+}
+
+.Schedule-module__I33aDW__textarea {
+  resize: vertical;
+  min-height: 100px;
+  font-family: inherit;
+}
+
+.Schedule-module__I33aDW__timeRow {
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  display: grid;
+}
+
+.Schedule-module__I33aDW__colorPicker {
+  flex-wrap: wrap;
+  gap: 8px;
+  display: flex;
+}
+
+.Schedule-module__I33aDW__colorOption {
+  cursor: pointer;
+  border: 2px solid #0000;
+  border-radius: 6px;
+  width: 40px;
+  height: 40px;
+  transition: all .2s;
+}
+
+.Schedule-module__I33aDW__colorOption:hover {
+  transform: scale(1.1);
+}
+
+.Schedule-module__I33aDW__colorOption.Schedule-module__I33aDW__selected {
+  border-color: #111827;
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px #111827;
+}
+
+.Schedule-module__I33aDW__checkbox {
+  align-items: center;
+  gap: 8px;
+  display: flex;
+}
+
+.Schedule-module__I33aDW__checkbox input {
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+}
+
+.Schedule-module__I33aDW__checkbox label {
+  cursor: pointer;
+  font-weight: normal;
+}
+
+.Schedule-module__I33aDW__buttons {
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+  display: flex;
+}
+
+.Schedule-module__I33aDW__button {
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all .2s;
+}
+
+.Schedule-module__I33aDW__buttonPrimary {
+  color: #fff;
+  background: #3b82f6;
+}
+
+.Schedule-module__I33aDW__buttonPrimary:hover {
+  background: #2563eb;
+}
+
+.Schedule-module__I33aDW__buttonPrimary:disabled {
+  cursor: not-allowed;
+  background: #9ca3af;
+}
+
+.Schedule-module__I33aDW__buttonSecondary {
+  color: #374151;
+  background: #f3f4f6;
+}
+
+.Schedule-module__I33aDW__buttonSecondary:hover {
+  background: #e5e7eb;
+}
+
+.Schedule-module__I33aDW__buttonDanger {
+  color: #fff;
+  background: #ef4444;
+}
+
+.Schedule-module__I33aDW__buttonDanger:hover {
+  background: #dc2626;
+}
+
+.Schedule-module__I33aDW__error {
+  color: #ef4444;
+  margin-top: 4px;
+  font-size: 13px;
+}
+
+.Schedule-module__I33aDW__list {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.Schedule-module__I33aDW__listHeader {
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  display: flex;
+}
+
+.Schedule-module__I33aDW__listTitle {
+  color: #111827;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.Schedule-module__I33aDW__scheduleItems {
+  flex-direction: column;
+  gap: 12px;
+  display: flex;
+}
+
+.Schedule-module__I33aDW__empty {
+  text-align: center;
+  color: #6b7280;
+  padding: 40px;
+}
+
+.Schedule-module__I33aDW__card {
+  cursor: pointer;
+  background: #fff;
+  border-radius: 8px;
+  padding: 16px;
+  transition: all .2s;
+  box-shadow: 0 1px 3px #0000001a;
+}
+
+.Schedule-module__I33aDW__card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px #0000001a;
+}
+
+.Schedule-module__I33aDW__cardHeader {
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+  display: flex;
+}
+
+.Schedule-module__I33aDW__cardTitle {
+  color: #111827;
+  flex: 1;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.Schedule-module__I33aDW__cardBadge {
+  color: #fff;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.Schedule-module__I33aDW__cardMeta {
+  color: #6b7280;
+  gap: 12px;
+  margin-bottom: 8px;
+  font-size: 14px;
+  display: flex;
+}
+
+.Schedule-module__I33aDW__cardDescription {
+  color: #4b5563;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.Schedule-module__I33aDW__nonInteractive {
+  -webkit-user-select: none;
+  user-select: none;
+  pointer-events: none;
+}
+
+.Schedule-module__I33aDW__cardCompleted {
+  opacity: .6;
+}
+
+.Schedule-module__I33aDW__cardCompleted .Schedule-module__I33aDW__cardTitle {
+  text-decoration: line-through;
+}
+
+@media (max-width: 768px) {
+  .Schedule-module__I33aDW__form, .Schedule-module__I33aDW__list {
+    padding: 16px;
+  }
+
+  .Schedule-module__I33aDW__timeRow {
+    grid-template-columns: 1fr;
+  }
+
+  .Schedule-module__I33aDW__buttons {
+    flex-direction: column;
+  }
+
+  .Schedule-module__I33aDW__button {
+    width: 100%;
+  }
+}
+
+/*# sourceMappingURL=calenderapp_components_Schedule_Schedule_module_fa5ee990.css.map*/

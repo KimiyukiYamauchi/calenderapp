@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 14, "column": 0}, "map": {"version":3,"sources":["file:///home/kanata/calenderapp/app/page.tsx"],"sourcesContent":["// app/page.tsx\n\nimport dynamic from 'next/dynamic';\n\nconst Calendar = dynamic(() => import('@/components/Calendar/Calendar'), { ssr: false });\n\nexport default function HomePage() {\n  return (\n    <div className=\"page-home\">\n      <h1>月間予定管理アプリ</h1>\n      <Calendar />\n    </div>\n  );\n}\n"],"names":[],"mappings":"AAAA,eAAe;;;;;;AAEf;;;;AAEA,MAAM,WAAW,IAAA,0KAAO,EAAC;;;;;;IAAkD,KAAK;;AAEjE,SAAS;IACtB,qBACE,8OAAC;QAAI,WAAU;;0BACb,8OAAC;0BAAG;;;;;;0BACJ,8OAAC;;;;;;;;;;;AAGP","debugId":null}}]
+}

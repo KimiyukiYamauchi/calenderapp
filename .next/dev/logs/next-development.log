@@ -1,0 +1,43 @@
+[00:00:00.504] Server  LOG      ✓ Ready in 336ms
+[00:00:05.588] Server  WARN     ⚠ Cross origin request detected from 172.16.42.14 to /_next/* resource. In a future major version of Next.js, you will need to explicitly configure "allowedDevOrigins" in next.config to allow this.
+Read more: https://nextjs.org/docs/app/api-reference/config/next-config-js/allowedDevOrigins
+[00:00:05.621] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:31:23.037] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:31:24.000] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:31:24.155] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:31:24.361] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:31:37.861] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:39:10.683] Server  WARN    Anthropic API key not configured — will use local Tesseract fallback
+[00:39:10.891] Server  ERROR   Tesseract OCR error: Error: Command failed: tesseract "/tmp/ocr_input_1763519410509.png" stdout -l jpn+eng --oem 1 --psm 3
+Error in findFileFormatStream: truncated file
+Error in fopenReadStream: file not found
+Error in pixRead: image file not found: u�Z�f�{�g
+Image file u�Z�f�{�g cannot be read!
+Error during processing.
+
+[00:39:10.892] Server  ERROR   Tesseract fallback error: Error: Command failed: tesseract "/tmp/ocr_input_1763519410509.png" stdout -l jpn+eng --oem 1 --psm 3
+Error in findFileFormatStream: truncated file
+Error in fopenReadStream: file not found
+Error in pixRead: image file not found: u�Z�f�{�g
+Image file u�Z�f�{�g cannot be read!
+Error during processing.
+
+[00:50:33.604] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:50:34.140] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:50:34.485] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:50:45.125] Server  WARN    Anthropic API key not configured — will use local Tesseract fallback
+[00:50:47.506] Server  WARN    Anthropic API key not configured — will use local Tesseract fallback
+[00:53:47.550] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:56:14.660] Server  LOG      ✓ Compiled in 0ms
+[00:59:11.520] Server  WARN     ⚠ Fast Refresh had to perform a full reload when ./calenderapp/app/page.tsx changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[00:59:11.631] Server  LOG      ✓ Compiled in 34ms
+[00:59:11.788] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:59:16.074] Server  WARN     ⚠ Fast Refresh had to perform a full reload when ./calenderapp/app/page.tsx changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[00:59:16.160] Server  LOG      ✓ Compiled in 19ms
+[00:59:16.300] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:59:19.982] Server  WARN     ⚠ Fast Refresh had to perform a full reload when ./calenderapp/app/page.tsx changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[00:59:20.058] Server  LOG      ✓ Compiled in 21ms
+[00:59:20.168] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:59:44.773] Server  WARN     ⚠ Fast Refresh had to perform a full reload when ./calenderapp/app/page.tsx changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[00:59:44.869] Server  LOG      ✓ Compiled in 29ms
+[00:59:45.018] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
