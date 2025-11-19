@@ -1,15 +1,14 @@
 // app/api/ocr/route.ts
 
 import { NextRequest, NextResponse } from "next/server";
-import Anthropic from "@anthropic-ai/sdk";
+// Anthropic SDK is dynamically imported inside the handler to avoid
+// build-time failures on platforms where the package cannot be resolved.
 import fs from "fs";
 import path from "path";
 import os from "os";
 import type { OCRResult, APIResponse } from "@/lib/types";
 
-const anthropic = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
-});
+// note: anthropic client will be created dynamically when needed
 
 // Helper: perform local Tesseract OCR on base64 image and return raw text
 async function performTesseractOCR(base64Data: string) {
@@ -35,6 +34,10 @@ async function performTesseractOCR(base64Data: string) {
     console.error("Tesseract OCR error:", err);
     throw err;
   }
+}
+
+export async function GET() {
+  return NextResponse.json({ success: true, data: [], info: "OCR endpoint (POST) is available" });
 }
 
 export async function POST(request: NextRequest) {
@@ -82,7 +85,12 @@ export async function POST(request: NextRequest) {
     let message: any | null = null;
     if (hasAnthropicKey) {
       try {
-        message = await anthropic.messages.create({
+        // Dynamic import to avoid build/runtime issues when package is not
+        // available or cannot be loaded in the target environment.
+        const { default: Anthropic } = await import("@anthropic-ai/sdk");
+        const anthClient = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+
+        message = await anthClient.messages.create({
           model: "claude-sonnet-4-20250514",
           max_tokens: 2000,
           messages: [
@@ -110,10 +118,7 @@ export async function POST(request: NextRequest) {
           ],
         });
       } catch (llmError) {
-        console.error(
-          "Anthropic API error - falling back to Tesseract:",
-          llmError
-        );
+        console.error("Anthropic import/call error - falling back to Tesseract:", llmError);
         message = null;
       }
     }

@@ -17,962 +17,254 @@ const mod = __turbopack_context__.x("next/dist/server/app-render/work-async-stor
 
 module.exports = mod;
 }),
-"[project]/calenderapp/lib/types.ts [app-ssr] (ecmascript)", ((__turbopack_context__) => {
-"use strict";
-
-// lib/types.ts
-/**
- * カテゴリーの型
- */ __turbopack_context__.s([
-    "CATEGORIES",
-    ()=>CATEGORIES
-]);
-const CATEGORIES = [
-    {
-        value: "work",
-        label: "仕事",
-        defaultColor: "#3B82F6"
-    },
-    {
-        value: "private",
-        label: "プライベート",
-        defaultColor: "#10B981"
-    },
-    {
-        value: "event",
-        label: "イベント",
-        defaultColor: "#F59E0B"
-    },
-    {
-        value: "other",
-        label: "その他",
-        defaultColor: "#8B5CF6"
-    }
-];
-}),
-"[project]/calenderapp/lib/utils.ts [app-ssr] (ecmascript)", ((__turbopack_context__) => {
-"use strict";
-
-// lib/utils.ts
-__turbopack_context__.s([
-    "combineDateAndTime",
-    ()=>combineDateAndTime,
-    "fileToBase64",
-    ()=>fileToBase64,
-    "formatDate",
-    ()=>formatDate,
-    "formatTime",
-    ()=>formatTime,
-    "generateCalendarDays",
-    ()=>generateCalendarDays,
-    "getBase64Data",
-    ()=>getBase64Data,
-    "getDayName",
-    ()=>getDayName,
-    "getMimeTypeFromBase64",
-    ()=>getMimeTypeFromBase64,
-    "getMonthName",
-    ()=>getMonthName,
-    "getSchedulesForDate",
-    ()=>getSchedulesForDate,
-    "isLightColor",
-    ()=>isLightColor,
-    "isValidDate",
-    ()=>isValidDate,
-    "isValidTime",
-    ()=>isValidTime,
-    "isValidTimeRange",
-    ()=>isValidTimeRange,
-    "parseDate",
-    ()=>parseDate
-]);
-function generateCalendarDays(year, month, schedules) {
-    const days = [];
-    const firstDay = new Date(year, month - 1, 1);
-    const lastDay = new Date(year, month, 0);
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    // 月の最初の週の前の月の日付を追加
-    const firstDayOfWeek = firstDay.getDay();
-    const prevMonthLastDay = new Date(year, month - 1, 0).getDate();
-    for(let i = firstDayOfWeek - 1; i >= 0; i--){
-        const date = new Date(year, month - 2, prevMonthLastDay - i);
-        days.push({
-            date,
-            isCurrentMonth: false,
-            isToday: false,
-            schedules: getSchedulesForDate(date, schedules)
-        });
-    }
-    // 当月の日付を追加
-    for(let day = 1; day <= lastDay.getDate(); day++){
-        const date = new Date(year, month - 1, day);
-        const dateOnly = new Date(date);
-        dateOnly.setHours(0, 0, 0, 0);
-        days.push({
-            date,
-            isCurrentMonth: true,
-            isToday: dateOnly.getTime() === today.getTime(),
-            schedules: getSchedulesForDate(date, schedules)
-        });
-    }
-    // 月の最後の週の次の月の日付を追加
-    const remainingDays = 7 - days.length % 7;
-    if (remainingDays < 7) {
-        for(let day = 1; day <= remainingDays; day++){
-            const date = new Date(year, month, day);
-            days.push({
-                date,
-                isCurrentMonth: false,
-                isToday: false,
-                schedules: getSchedulesForDate(date, schedules)
-            });
-        }
-    }
-    return days;
-}
-function getSchedulesForDate(date, schedules) {
-    const dateStr = formatDate(date);
-    return schedules.filter((schedule)=>schedule.date === dateStr).sort((a, b)=>a.startTime.localeCompare(b.startTime));
-}
-function formatDate(date) {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
-}
-function parseDate(dateStr) {
-    const [year, month, day] = dateStr.split("-").map(Number);
-    return new Date(year, month - 1, day);
-}
-function formatTime(date) {
-    const hours = String(date.getHours()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-    return `${hours}:${minutes}`;
-}
-function combineDateAndTime(dateStr, timeStr) {
-    const [year, month, day] = dateStr.split("-").map(Number);
-    const [hours, minutes] = timeStr.split(":").map(Number);
-    return new Date(year, month - 1, day, hours, minutes);
-}
-function getMonthName(year, month) {
-    return `${year}年${month}月`;
-}
-function getDayName(dayIndex) {
-    const days = [
-        "日",
-        "月",
-        "火",
-        "水",
-        "木",
-        "金",
-        "土"
-    ];
-    return days[dayIndex];
-}
-function isLightColor(hexColor) {
-    const hex = hexColor.replace("#", "");
-    const r = parseInt(hex.substr(0, 2), 16);
-    const g = parseInt(hex.substr(2, 2), 16);
-    const b = parseInt(hex.substr(4, 2), 16);
-    const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-    return brightness > 155;
-}
-function fileToBase64(file) {
-    return new Promise((resolve, reject)=>{
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = ()=>{
-            if (typeof reader.result === "string") {
-                resolve(reader.result);
-            } else {
-                reject(new Error("Failed to convert file to base64"));
-            }
-        };
-        reader.onerror = (error)=>reject(error);
-    });
-}
-function getMimeTypeFromBase64(base64) {
-    const match = base64.match(/data:([^;]+);/);
-    return match ? match[1] : "image/jpeg";
-}
-function getBase64Data(base64) {
-    return base64.split(",")[1] || base64;
-}
-function isValidDate(dateStr) {
-    const regex = /^\d{4}-\d{2}-\d{2}$/;
-    if (!regex.test(dateStr)) return false;
-    const date = parseDate(dateStr);
-    return !isNaN(date.getTime());
-}
-function isValidTime(timeStr) {
-    const regex = /^\d{2}:\d{2}$/;
-    if (!regex.test(timeStr)) return false;
-    const [hours, minutes] = timeStr.split(":").map(Number);
-    return hours >= 0 && hours < 24 && minutes >= 0 && minutes < 60;
-}
-function isValidTimeRange(startTime, endTime) {
-    return startTime < endTime;
-}
-}),
-"[project]/calenderapp/components/ImageUpload/ImageUpload.module.css [app-ssr] (css module)", ((__turbopack_context__) => {
+"[project]/calenderapp/components/Schedule/Schedule.module.css [app-ssr] (css module)", ((__turbopack_context__) => {
 
 __turbopack_context__.v({
-  "button": "ImageUpload-module__5r8nlq__button",
-  "buttonPrimary": "ImageUpload-module__5r8nlq__buttonPrimary",
-  "buttonSecondary": "ImageUpload-module__5r8nlq__buttonSecondary",
-  "container": "ImageUpload-module__5r8nlq__container",
-  "dragOver": "ImageUpload-module__5r8nlq__dragOver",
-  "error": "ImageUpload-module__5r8nlq__error",
-  "fileInput": "ImageUpload-module__5r8nlq__fileInput",
-  "loading": "ImageUpload-module__5r8nlq__loading",
-  "loadingSpinner": "ImageUpload-module__5r8nlq__loadingSpinner",
-  "loadingText": "ImageUpload-module__5r8nlq__loadingText",
-  "preview": "ImageUpload-module__5r8nlq__preview",
-  "previewActions": "ImageUpload-module__5r8nlq__previewActions",
-  "previewImage": "ImageUpload-module__5r8nlq__previewImage",
-  "resultItem": "ImageUpload-module__5r8nlq__resultItem",
-  "resultItemBadge": "ImageUpload-module__5r8nlq__resultItemBadge",
-  "resultItemField": "ImageUpload-module__5r8nlq__resultItemField",
-  "resultItemHeader": "ImageUpload-module__5r8nlq__resultItemHeader",
-  "resultItemInput": "ImageUpload-module__5r8nlq__resultItemInput",
-  "resultItemLabel": "ImageUpload-module__5r8nlq__resultItemLabel",
-  "resultItemRow": "ImageUpload-module__5r8nlq__resultItemRow",
-  "resultItemSelect": "ImageUpload-module__5r8nlq__resultItemSelect",
-  "resultItemTextarea": "ImageUpload-module__5r8nlq__resultItemTextarea",
-  "resultItemTitle": "ImageUpload-module__5r8nlq__resultItemTitle",
-  "resultItemValue": "ImageUpload-module__5r8nlq__resultItemValue",
-  "results": "ImageUpload-module__5r8nlq__results",
-  "resultsCount": "ImageUpload-module__5r8nlq__resultsCount",
-  "resultsHeader": "ImageUpload-module__5r8nlq__resultsHeader",
-  "resultsList": "ImageUpload-module__5r8nlq__resultsList",
-  "resultsTitle": "ImageUpload-module__5r8nlq__resultsTitle",
-  "saveButtons": "ImageUpload-module__5r8nlq__saveButtons",
-  "spin": "ImageUpload-module__5r8nlq__spin",
-  "success": "ImageUpload-module__5r8nlq__success",
-  "title": "ImageUpload-module__5r8nlq__title",
-  "uploadArea": "ImageUpload-module__5r8nlq__uploadArea",
-  "uploadHint": "ImageUpload-module__5r8nlq__uploadHint",
-  "uploadIcon": "ImageUpload-module__5r8nlq__uploadIcon",
-  "uploadText": "ImageUpload-module__5r8nlq__uploadText",
+  "button": "Schedule-module__I33aDW__button",
+  "buttonDanger": "Schedule-module__I33aDW__buttonDanger",
+  "buttonPrimary": "Schedule-module__I33aDW__buttonPrimary",
+  "buttonSecondary": "Schedule-module__I33aDW__buttonSecondary",
+  "buttons": "Schedule-module__I33aDW__buttons",
+  "card": "Schedule-module__I33aDW__card",
+  "cardBadge": "Schedule-module__I33aDW__cardBadge",
+  "cardCompleted": "Schedule-module__I33aDW__cardCompleted",
+  "cardDescription": "Schedule-module__I33aDW__cardDescription",
+  "cardHeader": "Schedule-module__I33aDW__cardHeader",
+  "cardMeta": "Schedule-module__I33aDW__cardMeta",
+  "cardTitle": "Schedule-module__I33aDW__cardTitle",
+  "checkbox": "Schedule-module__I33aDW__checkbox",
+  "colorOption": "Schedule-module__I33aDW__colorOption",
+  "colorPicker": "Schedule-module__I33aDW__colorPicker",
+  "empty": "Schedule-module__I33aDW__empty",
+  "error": "Schedule-module__I33aDW__error",
+  "form": "Schedule-module__I33aDW__form",
+  "formGroup": "Schedule-module__I33aDW__formGroup",
+  "input": "Schedule-module__I33aDW__input",
+  "label": "Schedule-module__I33aDW__label",
+  "list": "Schedule-module__I33aDW__list",
+  "listHeader": "Schedule-module__I33aDW__listHeader",
+  "listTitle": "Schedule-module__I33aDW__listTitle",
+  "nonInteractive": "Schedule-module__I33aDW__nonInteractive",
+  "required": "Schedule-module__I33aDW__required",
+  "scheduleItems": "Schedule-module__I33aDW__scheduleItems",
+  "select": "Schedule-module__I33aDW__select",
+  "selected": "Schedule-module__I33aDW__selected",
+  "textarea": "Schedule-module__I33aDW__textarea",
+  "timeRow": "Schedule-module__I33aDW__timeRow",
 });
 }),
-"[project]/calenderapp/components/ImageUpload/ImageUpload.tsx [app-ssr] (ecmascript)", ((__turbopack_context__) => {
+"[project]/calenderapp/components/Schedule/ScheduleList.tsx [app-ssr] (ecmascript)", ((__turbopack_context__) => {
 "use strict";
 
-// components/ImageUpload/ImageUpload.tsx
 __turbopack_context__.s([
     "default",
-    ()=>ImageUpload
+    ()=>ScheduleList
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/calenderapp/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react-jsx-dev-runtime.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/calenderapp/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/calenderapp/node_modules/next/navigation.js [app-ssr] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$lib$2f$types$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/calenderapp/lib/types.ts [app-ssr] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/calenderapp/lib/utils.ts [app-ssr] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__ = __turbopack_context__.i("[project]/calenderapp/components/ImageUpload/ImageUpload.module.css [app-ssr] (css module)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$Schedule$2f$Schedule$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__ = __turbopack_context__.i("[project]/calenderapp/components/Schedule/Schedule.module.css [app-ssr] (css module)");
 "use client";
 ;
 ;
 ;
 ;
-;
-;
-function ImageUpload() {
+const DEFAULT_TITLE = "(無題)";
+function sortSchedules(a, b) {
+    // 日付＋開始時刻で昇順ソート
+    return (a.date + a.startTime).localeCompare(b.date + b.startTime);
+}
+function groupByTitle(schedules) {
+    const map = new Map();
+    for (const s of schedules){
+        const key = s.title || DEFAULT_TITLE;
+        const arr = map.get(key) || [];
+        arr.push(s);
+        map.set(key, arr);
+    }
+    const grouped = Array.from(map.entries()).map(([title, items])=>({
+            title,
+            items: items.sort(sortSchedules)
+        }));
+    // 件数が多い順にソート
+    return grouped.sort((a, b)=>b.items.length - a.items.length);
+}
+function ScheduleList() {
     const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRouter"])();
-    const fileInputRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRef"])(null);
-    const [selectedFile, setSelectedFile] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
-    const [previewUrl, setPreviewUrl] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
-    const [personName, setPersonName] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])("");
-    const [dragOver, setDragOver] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
-    const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
-    const [ocrResults, setOcrResults] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])([]);
-    const [editedResults, setEditedResults] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])([]);
+    const [groups, setGroups] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])([]);
+    const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(true);
     const [error, setError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
-    const [success, setSuccess] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
-    const handleFileSelect = (file)=>{
-        if (!file.type.startsWith("image/")) {
-            alert("画像ファイルを選択してください");
-            return;
-        }
-        setSelectedFile(file);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
+        fetchSchedules();
+    }, []);
+    async function fetchSchedules() {
+        setLoading(true);
         setError(null);
-        setSuccess(false);
-        const reader = new FileReader();
-        reader.onload = (e)=>{
-            setPreviewUrl(e.target?.result);
-        };
-        reader.readAsDataURL(file);
-    };
-    const handleFileInputChange = (e)=>{
-        const file = e.target.files?.[0];
-        if (file) {
-            handleFileSelect(file);
-        }
-    };
-    const handleDragOver = (e)=>{
-        e.preventDefault();
-        setDragOver(true);
-    };
-    const handleDragLeave = ()=>{
-        setDragOver(false);
-    };
-    const handleDrop = (e)=>{
-        e.preventDefault();
-        setDragOver(false);
-        const file = e.dataTransfer.files[0];
-        if (file) {
-            handleFileSelect(file);
-        }
-    };
-    const handleUploadClick = ()=>{
-        fileInputRef.current?.click();
-    };
-    const handleAnalyze = async ()=>{
-        if (!selectedFile || !previewUrl) return;
         try {
-            setLoading(true);
-            setError(null);
-            const formData = new FormData();
-            formData.append("image", previewUrl);
-            formData.append("name", personName || "");
-            const response = await fetch("/api/ocr", {
-                method: "POST",
-                body: formData
-            });
-            const data = await response.json();
-            if (data.success && data.data) {
-                setOcrResults(data.data);
-                // OCR結果を編集可能な形式に変換
-                const today = (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$lib$2f$utils$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["formatDate"])(new Date());
-                const schedules = data.data.map((result)=>{
-                    const category = __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$lib$2f$types$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CATEGORIES"].find((c)=>c.value === result.category);
-                    return {
-                        date: result.date || today,
-                        startTime: result.startTime || "09:00",
-                        endTime: result.endTime || "10:00",
-                        title: result.title,
-                        description: result.description || "",
-                        category: result.category || "other",
-                        color: category?.defaultColor || __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$lib$2f$types$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CATEGORIES"][3].defaultColor,
-                        completed: false
-                    };
-                });
-                // クライアント側でも指定名でフィルタをかける（サーバーが返さなかった場合のフォールバック）
-                const normalize = (s)=>(s || "").normalize("NFKC").toLowerCase().replace(/\s+/g, "").replace(/[\p{P}\p{S}]/gu, "");
-                const levenshtein = (a, b)=>{
-                    const dp = Array.from({
-                        length: a.length + 1
-                    }, ()=>new Array(b.length + 1).fill(0));
-                    for(let i = 0; i <= a.length; i++)dp[i][0] = i;
-                    for(let j = 0; j <= b.length; j++)dp[0][j] = j;
-                    for(let i = 1; i <= a.length; i++){
-                        for(let j = 1; j <= b.length; j++){
-                            const cost = a[i - 1] === b[j - 1] ? 0 : 1;
-                            dp[i][j] = Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1, dp[i - 1][j - 1] + cost);
-                        }
-                    }
-                    return dp[a.length][b.length];
-                };
-                let filteredSchedules = schedules;
-                if (personName && personName.trim()) {
-                    const nm = normalize(personName.trim());
-                    const matchesName = (result, raw)=>{
-                        // try assignedTo/rawText if available in OCR results
-                        const ocr = raw;
-                        if (ocr?.assignedTo && ocr.assignedTo.length > 0) {
-                            for (const p of ocr.assignedTo){
-                                const pn = normalize(p);
-                                if (!pn) continue;
-                                if (pn.includes(nm) || nm.includes(pn)) return true;
-                                const maxDist = Math.max(1, Math.floor(Math.max(nm.length, pn.length) * 0.3));
-                                if (levenshtein(pn, nm) <= maxDist) return true;
-                            }
-                            return false;
-                        }
-                        const fields = [
-                            result.title,
-                            result.description,
-                            ocr && ocr.rawText || ""
-                        ].filter(Boolean).map((s)=>normalize(String(s)));
-                        for (const f of fields){
-                            if (f.includes(nm) || nm.includes(f)) return true;
-                            if (levenshtein(f, nm) <= Math.max(1, Math.floor(nm.length * 0.25))) return true;
-                        }
-                        return false;
-                    };
-                    // map back OCR results to schedule inputs to filter with raw data if present
-                    filteredSchedules = schedules.filter((s, idx)=>matchesName(s, data.data[idx]));
-                }
-                setEditedResults(filteredSchedules);
-                // 自動保存：該当名の予定が見つかったら即保存してカレンダーへ遷移
-                if (filteredSchedules.length > 0) {
-                    try {
-                        setLoading(true);
-                        const resp = await fetch("/api/schedules", {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify(filteredSchedules)
-                        });
-                        const resData = await resp.json();
-                        if (resData.success) {
-                            // 移動先は最初の予定の日付
-                            const targetDate = filteredSchedules[0].date;
-                            // ルートに focus クエリで移動
-                            router.push(`/?focus=${encodeURIComponent(targetDate)}`);
-                            router.refresh();
-                            return;
-                        } else {
-                            setError(resData.error || "自動保存に失敗しました");
-                        }
-                    } catch (err) {
-                        console.error("Auto-save error:", err);
-                        setError("自動保存中にエラーが発生しました");
-                    } finally{
-                        setLoading(false);
-                    }
-                }
-            } else {
-                setError(data.error || "予定の抽出に失敗しました");
+            const res = await fetch("/api/schedules");
+            const data = await res.json();
+            if (!data?.success) {
+                setError(data?.error || "予定の取得に失敗しました");
+                setGroups([]);
+                return;
             }
+            const schedules = data.data || [];
+            setGroups(groupByTitle(schedules));
         } catch (err) {
-            console.error("OCR error:", err);
-            setError("OCR処理中にエラーが発生しました");
+            console.error(err);
+            setError("予定一覧の取得中にエラーが発生しました");
         } finally{
             setLoading(false);
         }
-    };
-    // If no name provided, require user to input before analyzing
-    const canAnalyze = !!personName.trim() && !!selectedFile && !!previewUrl;
-    const handleResultChange = (index, field, value)=>{
-        setEditedResults((prev)=>{
-            const updated = [
-                ...prev
-            ];
-            updated[index] = {
-                ...updated[index],
-                [field]: value
-            };
-            // カテゴリー変更時に色も更新
-            if (field === "category") {
-                const category = __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$lib$2f$types$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CATEGORIES"].find((c)=>c.value === value);
-                if (category) {
-                    updated[index].color = category.defaultColor;
-                }
-            }
-            return updated;
-        });
-    };
-    const handleSave = async ()=>{
-        if (editedResults.length === 0) return;
-        // バリデーション
-        const hasError = editedResults.some((result)=>!result.title.trim() || !result.date || !result.startTime || !result.endTime);
-        if (hasError) {
-            alert("すべての必須項目を入力してください");
-            return;
-        }
-        try {
-            setLoading(true);
-            setError(null);
-            const response = await fetch("/api/schedules", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(editedResults)
-            });
-            const data = await response.json();
-            if (data.success) {
-                setSuccess(true);
-                setTimeout(()=>{
-                    router.push("/schedules");
-                    router.refresh();
-                }, 1500);
-            } else {
-                setError(data.error || "保存に失敗しました");
-            }
-        } catch (err) {
-            console.error("Save error:", err);
-            setError("保存中にエラーが発生しました");
-        } finally{
-            setLoading(false);
-        }
-    };
-    const handleReset = ()=>{
-        setSelectedFile(null);
-        setPreviewUrl(null);
-        setOcrResults([]);
-        setEditedResults([]);
-        setError(null);
-        setSuccess(false);
-        if (fileInputRef.current) {
-            fileInputRef.current.value = "";
-        }
-    };
+    }
+    if (loading) return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$Schedule$2f$Schedule$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].empty,
+        children: "読み込み中..."
+    }, void 0, false, {
+        fileName: "[project]/calenderapp/components/Schedule/ScheduleList.tsx",
+        lineNumber: 69,
+        columnNumber: 23
+    }, this);
+    if (error) return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$Schedule$2f$Schedule$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].error,
+        children: error
+    }, void 0, false, {
+        fileName: "[project]/calenderapp/components/Schedule/ScheduleList.tsx",
+        lineNumber: 70,
+        columnNumber: 21
+    }, this);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-        className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].container,
+        className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$Schedule$2f$Schedule$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].list,
         children: [
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].title,
-                children: "画像から予定を読み込む"
-            }, void 0, false, {
-                fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                lineNumber: 309,
-                columnNumber: 7
-            }, this),
-            !selectedFile && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: `${__TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].uploadArea} ${dragOver ? __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].dragOver : ""}`,
-                        onClick: handleUploadClick,
-                        onDragOver: handleDragOver,
-                        onDragLeave: handleDragLeave,
-                        onDrop: handleDrop,
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].uploadIcon,
-                                children: "📷"
-                            }, void 0, false, {
-                                fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                                lineNumber: 322,
-                                columnNumber: 13
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].uploadText,
-                                children: "クリックまたはドラッグ＆ドロップで画像をアップロード"
-                            }, void 0, false, {
-                                fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                                lineNumber: 323,
-                                columnNumber: 13
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].uploadHint,
-                                children: "カレンダーや手帳の写真から予定を自動抽出します"
-                            }, void 0, false, {
-                                fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                                lineNumber: 326,
-                                columnNumber: 13
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                        lineNumber: 313,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                        ref: fileInputRef,
-                        type: "file",
-                        accept: "image/*",
-                        onChange: handleFileInputChange,
-                        className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].fileInput
-                    }, void 0, false, {
-                        fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                        lineNumber: 330,
-                        columnNumber: 11
-                    }, this)
-                ]
-            }, void 0, true),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                style: {
-                    marginTop: 12
-                },
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                        style: {
-                            display: "block",
-                            marginBottom: 6
-                        },
-                        children: "名前（抽出対象）"
-                    }, void 0, false, {
-                        fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                        lineNumber: 342,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                        type: "text",
-                        value: personName,
-                        onChange: (e)=>setPersonName(e.target.value),
-                        placeholder: "例: 田中 太郎",
-                        style: {
-                            padding: 8,
-                            width: "100%",
-                            maxWidth: 360
-                        }
-                    }, void 0, false, {
-                        fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                        lineNumber: 345,
-                        columnNumber: 9
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                lineNumber: 341,
+                className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$Schedule$2f$Schedule$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].listHeader,
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                    className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$Schedule$2f$Schedule$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].listTitle,
+                    children: "予定一覧（タイトル別）"
+                }, void 0, false, {
+                    fileName: "[project]/calenderapp/components/Schedule/ScheduleList.tsx",
+                    lineNumber: 75,
+                    columnNumber: 9
+                }, this)
+            }, void 0, false, {
+                fileName: "[project]/calenderapp/components/Schedule/ScheduleList.tsx",
+                lineNumber: 74,
                 columnNumber: 7
             }, this),
-            selectedFile && previewUrl && !loading && editedResults.length === 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].preview,
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
-                        src: previewUrl,
-                        alt: "Preview",
-                        className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].previewImage
-                    }, void 0, false, {
-                        fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                        lineNumber: 356,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].previewActions,
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                className: `${__TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].button} ${__TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].buttonSecondary}`,
-                                onClick: handleReset,
-                                children: "別の画像を選択"
-                            }, void 0, false, {
-                                fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                                lineNumber: 358,
-                                columnNumber: 13
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                className: `${__TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].button} ${__TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].buttonPrimary}`,
-                                onClick: handleAnalyze,
-                                disabled: !canAnalyze,
-                                title: !canAnalyze ? "画像と抽出対象の名前を指定してください" : "予定を抽出",
-                                children: "予定を抽出"
-                            }, void 0, false, {
-                                fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                                lineNumber: 364,
-                                columnNumber: 13
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                        lineNumber: 357,
-                        columnNumber: 11
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                lineNumber: 355,
-                columnNumber: 9
-            }, this),
-            loading && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].loading,
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].loadingSpinner
-                    }, void 0, false, {
-                        fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                        lineNumber: 382,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].loadingText,
-                        children: editedResults.length === 0 ? "画像を解析中..." : "予定を保存中..."
-                    }, void 0, false, {
-                        fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                        lineNumber: 383,
-                        columnNumber: 11
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                lineNumber: 381,
-                columnNumber: 9
-            }, this),
-            error && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].error,
-                children: error
+            groups.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$Schedule$2f$Schedule$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].empty,
+                children: "予定がありません"
             }, void 0, false, {
-                fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                lineNumber: 389,
-                columnNumber: 17
-            }, this),
-            success && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].success,
-                children: "予定を保存しました！予定一覧ページに移動します..."
-            }, void 0, false, {
-                fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                lineNumber: 392,
+                fileName: "[project]/calenderapp/components/Schedule/ScheduleList.tsx",
+                lineNumber: 79,
                 columnNumber: 9
-            }, this),
-            editedResults.length > 0 && !success && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].results,
-                children: [
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].resultsHeader,
+            }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$Schedule$2f$Schedule$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].scheduleItems,
+                children: groups.map((g)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("article", {
+                        className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$Schedule$2f$Schedule$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].card,
                         children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                                className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].resultsTitle,
-                                children: "抽出された予定"
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$Schedule$2f$Schedule$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].cardHeader,
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$Schedule$2f$Schedule$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].cardTitle,
+                                    children: [
+                                        g.title,
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$Schedule$2f$Schedule$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].cardMeta,
+                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                children: [
+                                                    g.items.length,
+                                                    " 件"
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/calenderapp/components/Schedule/ScheduleList.tsx",
+                                                lineNumber: 88,
+                                                columnNumber: 21
+                                            }, this)
+                                        }, void 0, false, {
+                                            fileName: "[project]/calenderapp/components/Schedule/ScheduleList.tsx",
+                                            lineNumber: 87,
+                                            columnNumber: 19
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/calenderapp/components/Schedule/ScheduleList.tsx",
+                                    lineNumber: 85,
+                                    columnNumber: 17
+                                }, this)
                             }, void 0, false, {
-                                fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                                lineNumber: 400,
-                                columnNumber: 13
+                                fileName: "[project]/calenderapp/components/Schedule/ScheduleList.tsx",
+                                lineNumber: 84,
+                                columnNumber: 15
                             }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].resultsCount,
-                                children: [
-                                    editedResults.length,
-                                    "件の予定が見つかりました"
-                                ]
-                            }, void 0, true, {
-                                fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                                lineNumber: 401,
-                                columnNumber: 13
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
+                                children: g.items.map((s)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                        onDoubleClick: ()=>{
+                                            // ダブルクリックでカレンダーの該当日に移動
+                                            // 日付は YYYY-MM-DD 形式をそのまま渡す
+                                            router.push(`/?focus=${encodeURIComponent(s.date)}`);
+                                        },
+                                        style: {
+                                            cursor: "pointer"
+                                        },
+                                        title: "ダブルクリックでカレンダーに移動",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: `${__TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$Schedule$2f$Schedule$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].cardMeta} ${__TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$Schedule$2f$Schedule$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].nonInteractive}`,
+                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                    children: [
+                                                        s.date,
+                                                        " ",
+                                                        s.startTime,
+                                                        s.endTime ? ` - ${s.endTime}` : ""
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/calenderapp/components/Schedule/ScheduleList.tsx",
+                                                    lineNumber: 108,
+                                                    columnNumber: 23
+                                                }, this)
+                                            }, void 0, false, {
+                                                fileName: "[project]/calenderapp/components/Schedule/ScheduleList.tsx",
+                                                lineNumber: 105,
+                                                columnNumber: 21
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: `${__TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$Schedule$2f$Schedule$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].cardDescription} ${__TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$Schedule$2f$Schedule$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].nonInteractive}`,
+                                                children: [
+                                                    s.title ? "" : "（タイトルなし）",
+                                                    s.description || ""
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/calenderapp/components/Schedule/ScheduleList.tsx",
+                                                lineNumber: 113,
+                                                columnNumber: 21
+                                            }, this)
+                                        ]
+                                    }, s.id, true, {
+                                        fileName: "[project]/calenderapp/components/Schedule/ScheduleList.tsx",
+                                        lineNumber: 95,
+                                        columnNumber: 19
+                                    }, this))
+                            }, void 0, false, {
+                                fileName: "[project]/calenderapp/components/Schedule/ScheduleList.tsx",
+                                lineNumber: 93,
+                                columnNumber: 15
                             }, this)
                         ]
-                    }, void 0, true, {
-                        fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                        lineNumber: 399,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].resultsList,
-                        children: editedResults.map((result, index)=>{
-                            const category = __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$lib$2f$types$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CATEGORIES"].find((c)=>c.value === result.category);
-                            return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].resultItem,
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].resultItemHeader,
-                                        children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                                type: "text",
-                                                value: result.title,
-                                                onChange: (e)=>handleResultChange(index, "title", e.target.value),
-                                                className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].resultItemTitle,
-                                                style: {
-                                                    border: "none",
-                                                    outline: "none",
-                                                    width: "100%"
-                                                }
-                                            }, void 0, false, {
-                                                fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                                                lineNumber: 414,
-                                                columnNumber: 21
-                                            }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].resultItemBadge,
-                                                style: {
-                                                    backgroundColor: result.color
-                                                },
-                                                children: category?.label
-                                            }, void 0, false, {
-                                                fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                                                lineNumber: 423,
-                                                columnNumber: 21
-                                            }, this)
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                                        lineNumber: 413,
-                                        columnNumber: 19
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].resultItemRow,
-                                        children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].resultItemField,
-                                                children: [
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                                                        className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].resultItemLabel,
-                                                        children: "日付"
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                                                        lineNumber: 433,
-                                                        columnNumber: 23
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                                        type: "date",
-                                                        value: result.date,
-                                                        onChange: (e)=>handleResultChange(index, "date", e.target.value),
-                                                        className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].resultItemInput
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                                                        lineNumber: 434,
-                                                        columnNumber: 23
-                                                    }, this)
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                                                lineNumber: 432,
-                                                columnNumber: 21
-                                            }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].resultItemField,
-                                                children: [
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                                                        className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].resultItemLabel,
-                                                        children: "開始時間"
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                                                        lineNumber: 445,
-                                                        columnNumber: 23
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                                        type: "time",
-                                                        value: result.startTime,
-                                                        onChange: (e)=>handleResultChange(index, "startTime", e.target.value),
-                                                        className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].resultItemInput
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                                                        lineNumber: 446,
-                                                        columnNumber: 23
-                                                    }, this)
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                                                lineNumber: 444,
-                                                columnNumber: 21
-                                            }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].resultItemField,
-                                                children: [
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                                                        className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].resultItemLabel,
-                                                        children: "終了時間"
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                                                        lineNumber: 457,
-                                                        columnNumber: 23
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                                        type: "time",
-                                                        value: result.endTime,
-                                                        onChange: (e)=>handleResultChange(index, "endTime", e.target.value),
-                                                        className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].resultItemInput
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                                                        lineNumber: 458,
-                                                        columnNumber: 23
-                                                    }, this)
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                                                lineNumber: 456,
-                                                columnNumber: 21
-                                            }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].resultItemField,
-                                                children: [
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                                                        className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].resultItemLabel,
-                                                        children: "カテゴリー"
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                                                        lineNumber: 469,
-                                                        columnNumber: 23
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
-                                                        value: result.category,
-                                                        onChange: (e)=>handleResultChange(index, "category", e.target.value),
-                                                        className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].resultItemSelect,
-                                                        children: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$lib$2f$types$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CATEGORIES"].map((cat)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
-                                                                value: cat.value,
-                                                                children: cat.label
-                                                            }, cat.value, false, {
-                                                                fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                                                                lineNumber: 484,
-                                                                columnNumber: 27
-                                                            }, this))
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                                                        lineNumber: 472,
-                                                        columnNumber: 23
-                                                    }, this)
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                                                lineNumber: 468,
-                                                columnNumber: 21
-                                            }, this)
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                                        lineNumber: 431,
-                                        columnNumber: 19
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].resultItemField,
-                                        children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                                                className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].resultItemLabel,
-                                                children: "詳細"
-                                            }, void 0, false, {
-                                                fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                                                lineNumber: 493,
-                                                columnNumber: 21
-                                            }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
-                                                value: result.description,
-                                                onChange: (e)=>handleResultChange(index, "description", e.target.value),
-                                                className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].resultItemTextarea,
-                                                placeholder: "予定の詳細..."
-                                            }, void 0, false, {
-                                                fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                                                lineNumber: 494,
-                                                columnNumber: 21
-                                            }, this)
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                                        lineNumber: 492,
-                                        columnNumber: 19
-                                    }, this)
-                                ]
-                            }, index, true, {
-                                fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                                lineNumber: 412,
-                                columnNumber: 17
-                            }, this);
-                        })
-                    }, void 0, false, {
-                        fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                        lineNumber: 406,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].saveButtons,
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                className: `${__TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].button} ${__TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].buttonSecondary}`,
-                                onClick: handleReset,
-                                disabled: loading,
-                                children: "キャンセル"
-                            }, void 0, false, {
-                                fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                                lineNumber: 509,
-                                columnNumber: 13
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                className: `${__TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].button} ${__TURBOPACK__imported__module__$5b$project$5d2f$calenderapp$2f$components$2f$ImageUpload$2f$ImageUpload$2e$module$2e$css__$5b$app$2d$ssr$5d$__$28$css__module$29$__["default"].buttonPrimary}`,
-                                onClick: handleSave,
-                                disabled: loading,
-                                children: "すべて保存"
-                            }, void 0, false, {
-                                fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                                lineNumber: 516,
-                                columnNumber: 13
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                        lineNumber: 508,
-                        columnNumber: 11
-                    }, this)
-                ]
-            }, void 0, true, {
-                fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-                lineNumber: 398,
+                    }, g.title, true, {
+                        fileName: "[project]/calenderapp/components/Schedule/ScheduleList.tsx",
+                        lineNumber: 83,
+                        columnNumber: 13
+                    }, this))
+            }, void 0, false, {
+                fileName: "[project]/calenderapp/components/Schedule/ScheduleList.tsx",
+                lineNumber: 81,
                 columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
-        fileName: "[project]/calenderapp/components/ImageUpload/ImageUpload.tsx",
-        lineNumber: 308,
+        fileName: "[project]/calenderapp/components/Schedule/ScheduleList.tsx",
+        lineNumber: 73,
         columnNumber: 5
     }, this);
 }
@@ -3028,4 +2320,4 @@ module.exports = __turbopack_context__.r("[project]/calenderapp/node_modules/nex
 }),
 ];
 
-//# sourceMappingURL=%5Broot-of-the-server%5D__a1a18517._.js.map
+//# sourceMappingURL=%5Broot-of-the-server%5D__a46f59c7._.js.map

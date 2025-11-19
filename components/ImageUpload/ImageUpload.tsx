@@ -110,7 +110,105 @@ export default function ImageUpload() {
           }
         );
 
-        setEditedResults(schedules);
+        // クライアント側でも指定名でフィルタをかける（サーバーが返さなかった場合のフォールバック）
+        const normalize = (s?: string) =>
+          (s || "")
+            .normalize("NFKC")
+            .toLowerCase()
+            .replace(/\s+/g, "")
+            .replace(/[\p{P}\p{S}]/gu, "");
+
+        const levenshtein = (a: string, b: string) => {
+          const dp: number[][] = Array.from({ length: a.length + 1 }, () =>
+            new Array(b.length + 1).fill(0)
+          );
+          for (let i = 0; i <= a.length; i++) dp[i][0] = i;
+          for (let j = 0; j <= b.length; j++) dp[0][j] = j;
+          for (let i = 1; i <= a.length; i++) {
+            for (let j = 1; j <= b.length; j++) {
+              const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+              dp[i][j] = Math.min(
+                dp[i - 1][j] + 1,
+                dp[i][j - 1] + 1,
+                dp[i - 1][j - 1] + cost
+              );
+            }
+          }
+          return dp[a.length][b.length];
+        };
+
+        let filteredSchedules = schedules;
+        if (personName && personName.trim()) {
+          const nm = normalize(personName.trim());
+          const matchesName = (result: ScheduleInput, raw?: OCRResult) => {
+            // try assignedTo/rawText if available in OCR results
+            const ocr = raw as OCRResult | undefined;
+            if (ocr?.assignedTo && ocr.assignedTo.length > 0) {
+              for (const p of ocr.assignedTo) {
+                const pn = normalize(p);
+                if (!pn) continue;
+                if (pn.includes(nm) || nm.includes(pn)) return true;
+                const maxDist = Math.max(
+                  1,
+                  Math.floor(Math.max(nm.length, pn.length) * 0.3)
+                );
+                if (levenshtein(pn, nm) <= maxDist) return true;
+              }
+              return false;
+            }
+
+            const fields = [
+              result.title,
+              result.description,
+              (ocr && ocr.rawText) || "",
+            ]
+              .filter(Boolean)
+              .map((s) => normalize(String(s)));
+            for (const f of fields) {
+              if (f.includes(nm) || nm.includes(f)) return true;
+              if (
+                levenshtein(f, nm) <= Math.max(1, Math.floor(nm.length * 0.25))
+              )
+                return true;
+            }
+            return false;
+          };
+
+          // map back OCR results to schedule inputs to filter with raw data if present
+          filteredSchedules = schedules.filter((s, idx) =>
+            matchesName(s, data.data[idx])
+          );
+        }
+
+        setEditedResults(filteredSchedules);
+
+        // 自動保存：該当名の予定が見つかったら即保存してカレンダーへ遷移
+        if (filteredSchedules.length > 0) {
+          try {
+            setLoading(true);
+            const resp = await fetch("/api/schedules", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(filteredSchedules),
+            });
+            const resData = await resp.json();
+            if (resData.success) {
+              // 移動先は最初の予定の日付
+              const targetDate = filteredSchedules[0].date;
+              // ルートに focus クエリで移動
+              router.push(`/?focus=${encodeURIComponent(targetDate)}`);
+              router.refresh();
+              return;
+            } else {
+              setError(resData.error || "自動保存に失敗しました");
+            }
+          } catch (err) {
+            console.error("Auto-save error:", err);
+            setError("自動保存中にエラーが発生しました");
+          } finally {
+            setLoading(false);
+          }
+        }
       } else {
         setError(data.error || "予定の抽出に失敗しました");
       }
