@@ -1,5 +1,3 @@
-"use client";
-
 export const dynamic = "force-dynamic"; // Vercel Edgeで動的レンダリングを有効化
 
 import { Suspense } from "react";
