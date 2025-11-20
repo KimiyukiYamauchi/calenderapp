@@ -1,3 +1,0 @@
-module.exports=[7262,(a,b,c)=>{let{createClientModuleProxy:d}=a.r(37004);a.n(d("[project]/calenderapp/node_modules/next/dist/client/components/builtin/global-error.js <module evaluation>"))},7455,(a,b,c)=>{let{createClientModuleProxy:d}=a.r(37004);a.n(d("[project]/calenderapp/node_modules/next/dist/client/components/builtin/global-error.js"))},74827,a=>{"use strict";a.i(7262);var b=a.i(7455);a.n(b)}];
-
-//# sourceMappingURL=9ebee_next_dist_client_components_builtin_global-error_2af85c23.js.map

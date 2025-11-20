@@ -1,7 +1,0 @@
-{
-  "/api/ocr/route": "app/api/ocr/route.js",
-  "/api/schedules/route": "app/api/schedules/route.js",
-  "/page": "app/page.js",
-  "/schedules/page": "app/schedules/page.js",
-  "/schedules/upload/page": "app/schedules/upload/page.js"
-}
