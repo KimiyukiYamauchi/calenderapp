@@ -1,43 +1,852 @@
-[00:00:00.504] Server  LOG      ✓ Ready in 336ms
-[00:00:05.588] Server  WARN     ⚠ Cross origin request detected from 172.16.42.14 to /_next/* resource. In a future major version of Next.js, you will need to explicitly configure "allowedDevOrigins" in next.config to allow this.
+[00:00:00.614] Server  LOG      ✓ Ready in 391ms
+[00:00:06.907] Server  WARN     ⚠ Cross origin request detected from 172.16.42.14 to /_next/* resource. In a future major version of Next.js, you will need to explicitly configure "allowedDevOrigins" in next.config to allow this.
 Read more: https://nextjs.org/docs/app/api-reference/config/next-config-js/allowedDevOrigins
-[00:00:05.621] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:31:23.037] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:31:24.000] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:31:24.155] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:31:24.361] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:31:37.861] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:39:10.683] Server  WARN    Anthropic API key not configured — will use local Tesseract fallback
-[00:39:10.891] Server  ERROR   Tesseract OCR error: Error: Command failed: tesseract "/tmp/ocr_input_1763519410509.png" stdout -l jpn+eng --oem 1 --psm 3
-Error in findFileFormatStream: truncated file
-Error in fopenReadStream: file not found
-Error in pixRead: image file not found: u�Z�f�{�g
-Image file u�Z�f�{�g cannot be read!
-Error during processing.
+[00:00:06.932] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:23.326] Server  WARN    Anthropic API key not configured — will use local Tesseract fallback
+[00:00:29.336] Server  WARN    Anthropic API key not configured — will use local Tesseract fallback
+[00:58:55.420] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:02:06.491] Server  ERROR    ⨯ ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
 
-[00:39:10.892] Server  ERROR   Tesseract fallback error: Error: Command failed: tesseract "/tmp/ocr_input_1763519410509.png" stdout -l jpn+eng --oem 1 --psm 3
-Error in findFileFormatStream: truncated file
-Error in fopenReadStream: file not found
-Error in pixRead: image file not found: u�Z�f�{�g
-Image file u�Z�f�{�g cannot be read!
-Error during processing.
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
 
-[00:50:33.604] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:50:34.140] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:50:34.485] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:50:45.125] Server  WARN    Anthropic API key not configured — will use local Tesseract fallback
-[00:50:47.506] Server  WARN    Anthropic API key not configured — will use local Tesseract fallback
-[00:53:47.550] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:56:14.660] Server  LOG      ✓ Compiled in 0ms
-[00:59:11.520] Server  WARN     ⚠ Fast Refresh had to perform a full reload when ./calenderapp/app/page.tsx changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
-[00:59:11.631] Server  LOG      ✓ Compiled in 34ms
-[00:59:11.788] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:59:16.074] Server  WARN     ⚠ Fast Refresh had to perform a full reload when ./calenderapp/app/page.tsx changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
-[00:59:16.160] Server  LOG      ✓ Compiled in 19ms
-[00:59:16.300] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:59:19.982] Server  WARN     ⚠ Fast Refresh had to perform a full reload when ./calenderapp/app/page.tsx changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
-[00:59:20.058] Server  LOG      ✓ Compiled in 21ms
-[00:59:20.168] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:59:44.773] Server  WARN     ⚠ Fast Refresh had to perform a full reload when ./calenderapp/app/page.tsx changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
-[00:59:44.869] Server  LOG      ✓ Compiled in 29ms
-[00:59:45.018] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+
+[01:02:06.820] Browser ERROR   ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+[01:02:07.345] Server  ERROR    ⨯ ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+
+
+[01:02:07.360] Server  ERROR    ⨯ ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+
+
+[01:02:07.381] Server  ERROR    ⨯ ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+
+
+[01:02:07.400] Server  ERROR    ⨯ ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+
+
+[01:02:07.420] Server  ERROR    ⨯ ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+
+
+[01:02:07.437] Server  ERROR    ⨯ ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+
+
+[01:02:07.450] Server  ERROR    ⨯ ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+
+
+[01:02:07.465] Server  ERROR    ⨯ ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+
+
+[01:02:07.483] Server  ERROR    ⨯ ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+
+
+[01:02:07.498] Server  ERROR    ⨯ ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+
+
+[01:02:07.515] Server  ERROR    ⨯ ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+
+
+[01:02:07.531] Server  ERROR    ⨯ ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+
+
+[01:02:07.547] Server  ERROR    ⨯ ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+
+
+[01:02:07.567] Server  ERROR    ⨯ ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+
+
+[01:02:07.587] Server  ERROR    ⨯ ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+
+
+[01:02:07.600] Server  ERROR    ⨯ ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+
+
+[01:02:07.620] Server  ERROR    ⨯ ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+
+
+[01:02:07.634] Server  ERROR    ⨯ ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+
+
+[01:02:07.650] Server  ERROR    ⨯ ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+
+
+[01:02:07.660] Browser ERROR   ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+[01:02:07.660] Browser ERROR   ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+[01:02:07.660] Browser ERROR   ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+[01:02:07.666] Server  ERROR    ⨯ ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+
+
+[01:02:07.797] Browser ERROR   uncaughtError: Error: ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+
+
+[01:02:08.824] Browser ERROR   ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+[01:02:08.824] Browser ERROR   ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+[01:02:08.824] Browser ERROR   ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+[01:02:08.824] Browser ERROR   ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+[01:02:08.824] Browser ERROR   ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+[01:02:08.824] Browser ERROR   ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+[01:02:08.824] Browser ERROR   ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+[01:02:10.514] Server  ERROR    ⨯ ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+
+
+[01:02:10.635] Browser ERROR   uncaughtError: Error: ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+
+
+[01:02:10.820] Browser ERROR   ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+[01:02:10.820] Browser ERROR   ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+[01:02:10.820] Browser ERROR   ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+[01:02:10.820] Browser ERROR   ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+[01:02:10.820] Browser ERROR   ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+[01:02:10.820] Browser ERROR   ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+[01:02:10.820] Browser ERROR   ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+[01:02:13.108] Server  ERROR    ⨯ ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+
+
+[01:02:13.210] Browser ERROR   uncaughtError: Error: ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+
+
+[01:02:13.821] Browser ERROR   ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+[01:02:13.821] Browser ERROR   ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+[01:02:13.821] Browser ERROR   ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+[01:02:13.821] Browser ERROR   ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+[01:02:13.821] Browser ERROR   ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+[01:02:13.821] Browser ERROR   ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+[01:02:13.821] Browser ERROR   ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+[01:02:24.775] Browser ERROR   uncaughtError: Error: ./calenderapp/package.json:27:1
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 | {
+     | ^
+  28 |   "scripts": {
+  29 |     "build": "tsc && npm run copy-assets",
+  30 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 1
+
+
+[01:03:04.710] Server  ERROR    ⨯ ./calenderapp/package.json:27:3
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 |   "scripts": {
+     |   ^
+  28 |     "build": "tsc && npm run copy-assets",
+  29 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+  30 |   }
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 3
+
+
+[01:03:04.840] Browser ERROR   uncaughtError: Error: ./calenderapp/package.json:27:3
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 |   "scripts": {
+     |   ^
+  28 |     "build": "tsc && npm run copy-assets",
+  29 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+  30 |   }
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 3
+
+
+[01:03:05.820] Browser ERROR   ./calenderapp/package.json:27:3
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 |   "scripts": {
+     |   ^
+  28 |     "build": "tsc && npm run copy-assets",
+  29 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+  30 |   }
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 3
+[01:03:05.820] Browser ERROR   ./calenderapp/package.json:27:3
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 |   "scripts": {
+     |   ^
+  28 |     "build": "tsc && npm run copy-assets",
+  29 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+  30 |   }
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 3
+[01:03:05.820] Browser ERROR   ./calenderapp/package.json:27:3
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 |   "scripts": {
+     |   ^
+  28 |     "build": "tsc && npm run copy-assets",
+  29 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+  30 |   }
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 3
+[01:03:05.820] Browser ERROR   ./calenderapp/package.json:27:3
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 |   "scripts": {
+     |   ^
+  28 |     "build": "tsc && npm run copy-assets",
+  29 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+  30 |   }
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 3
+[01:03:05.820] Browser ERROR   ./calenderapp/package.json:27:3
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 |   "scripts": {
+     |   ^
+  28 |     "build": "tsc && npm run copy-assets",
+  29 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+  30 |   }
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 3
+[01:03:05.820] Browser ERROR   ./calenderapp/package.json:27:3
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 |   "scripts": {
+     |   ^
+  28 |     "build": "tsc && npm run copy-assets",
+  29 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+  30 |   }
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 3
+[01:03:05.820] Browser ERROR   ./calenderapp/package.json:27:3
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 |   "scripts": {
+     |   ^
+  28 |     "build": "tsc && npm run copy-assets",
+  29 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+  30 |   }
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 3
+[01:03:07.715] Server  ERROR    ⨯ ./calenderapp/package.json:27:3
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 |   "scripts": {
+     |   ^
+  28 |     "build": "tsc && npm run copy-assets",
+  29 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+  30 |   }
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 3
+
+
+[01:03:07.822] Browser ERROR   uncaughtError: Error: ./calenderapp/package.json:27:3
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 |   "scripts": {
+     |   ^
+  28 |     "build": "tsc && npm run copy-assets",
+  29 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+  30 |   }
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 3
+
+
+[01:03:08.820] Browser ERROR   ./calenderapp/package.json:27:3
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 |   "scripts": {
+     |   ^
+  28 |     "build": "tsc && npm run copy-assets",
+  29 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+  30 |   }
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 3
+[01:03:08.820] Browser ERROR   ./calenderapp/package.json:27:3
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 |   "scripts": {
+     |   ^
+  28 |     "build": "tsc && npm run copy-assets",
+  29 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+  30 |   }
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 3
+[01:03:08.820] Browser ERROR   ./calenderapp/package.json:27:3
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 |   "scripts": {
+     |   ^
+  28 |     "build": "tsc && npm run copy-assets",
+  29 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+  30 |   }
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 3
+[01:03:08.820] Browser ERROR   ./calenderapp/package.json:27:3
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 |   "scripts": {
+     |   ^
+  28 |     "build": "tsc && npm run copy-assets",
+  29 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+  30 |   }
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 3
+[01:03:08.820] Browser ERROR   ./calenderapp/package.json:27:3
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 |   "scripts": {
+     |   ^
+  28 |     "build": "tsc && npm run copy-assets",
+  29 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+  30 |   }
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 3
+[01:03:08.820] Browser ERROR   ./calenderapp/package.json:27:3
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 |   "scripts": {
+     |   ^
+  28 |     "build": "tsc && npm run copy-assets",
+  29 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+  30 |   }
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 3
+[01:03:08.820] Browser ERROR   ./calenderapp/package.json:27:3
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 |   "scripts": {
+     |   ^
+  28 |     "build": "tsc && npm run copy-assets",
+  29 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+  30 |   }
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 3
+[01:03:14.528] Browser ERROR   uncaughtError: Error: ./calenderapp/package.json:27:3
+Error parsing package.json file
+  25 |   }
+  26 |
+> 27 |   "scripts": {
+     |   ^
+  28 |     "build": "tsc && npm run copy-assets",
+  29 |     "copy-assets": "cp -r src/public dist/ && cp -r src/views dist/"
+  30 |   }
+
+package.json is not parseable: invalid JSON: expected `,` or `}` at line 27 column 3
+
+
